@@ -132,12 +132,11 @@ List<Conta> listaContas = new List<Conta>();
 
  bool AcessarContaCorrenteMenu()
 {
-    string cPF = PedirCpf();//TODO
-    Conta result = listaContas.Find(item => item.CPF == cPF);
 
+    Console.Clear();
     Console.WriteLine("Choose an option:");
     Console.WriteLine("1) Depositar");
-    Console.WriteLine("2) --");
+    Console.WriteLine("2) Sacar");
     Console.WriteLine("2) --");
     Console.WriteLine("2) --");
     Console.WriteLine("3) Exit");
@@ -147,12 +146,9 @@ List<Conta> listaContas = new List<Conta>();
     {
         case "1":
             Depositar();
-            Console.WriteLine($"O valor de {result.Saldo} foi depositado");
-            Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
-            Console.ReadLine();
             return true;
         case "2":
-            
+            Sacar();
             return true;
         case "3":
             
@@ -196,6 +192,42 @@ void Depositar()
         if (item.CPF == cPF)
         {
             item.Deposito(valorDeposito);
+        }
+        Console.WriteLine("Deposito realizado!");
+        Console.WriteLine($"O valor de {item.Saldo} foi depositado");
+        Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
+        Console.ReadLine();
+    }
+    
+}
+
+void Sacar()
+{
+    string cPF = PedirCpf();
+    decimal valorSaque = 0;
+    string tryValorSaque = "";
+    Console.Write("Digite o valor a ser retirado: ");
+    tryValorSaque = Console.ReadLine();
+    while (!decimal.TryParse(tryValorSaque, out valorSaque))
+    {
+        Console.Write("This is not valid input. Please enter an integer value: ");
+        tryValorSaque = Console.ReadLine();
+    }
+    foreach (var item in listaContas)
+    {
+        if (item.CPF == cPF)
+        {
+            try { item.Saque(valorSaque); }
+            catch (Exception)
+            {
+                Console.WriteLine("Saldo insuficiente");
+                
+            }
+            Console.WriteLine("Saque realizado!");
+            Console.WriteLine($"O saldo atual é: {item.Saldo}");
+            Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
+            Console.ReadLine();
+            AcessarContaCorrenteMenu();
         }
     }
 }

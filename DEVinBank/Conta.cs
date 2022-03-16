@@ -9,7 +9,9 @@
         public int NumeroConta { get; private set; }
         public static int Contador = 0;
         public string Agencia { get; private set; }
-        public decimal Saldo { get; private set; }
+        public decimal Saldo { get; private protected set; }
+        
+        public List<Extrato> ListaExtrato { get; private set; }
 
         public Conta(string nome, string cPF, string endereço, decimal rendaMensal, string agencia)
         {
@@ -23,17 +25,26 @@
            
         }
 
-        public void Saque() { }
+        public virtual void Saque(decimal value) {
+            if (Saldo < value)
+            {
+                throw new Exception("Balance unavailable.");
+            }
 
-        public void Deposito(decimal value) {
+            Saldo -= value;
+        }
+
+        public  void Deposito(decimal value) {
             
             this.Saldo += value;
+            
 
         }
 
-        public void GetSaldo() { }
+        public decimal GetSaldo() {
+            return Saldo;
+        }
 
-        public void Extrato(Conta conta, string oprecao, decimal valor) { }
 
         public void AlterarDadosCadastrais() { }
 
