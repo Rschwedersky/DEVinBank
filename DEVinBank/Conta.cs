@@ -3,7 +3,7 @@
     public class Conta
     {
         public string Nome { get; private set; }
-        private string CPF { get; set; }
+        public string CPF { get; private set; }
         public string Endereço { get; private set; }
         public decimal RendaMensal { get; private set; }
         public int NumeroConta { get; private set; }
@@ -20,19 +20,26 @@
             NumeroConta = Contador;
             Agencia = agencia;
             Contador++;
+           
         }
 
         public void Saque() { }
 
-        public void Deposito() { }
+        public void Deposito(decimal value) {
+            
+            this.Saldo += value;
+
+        }
 
         public void GetSaldo() { }
 
-        public void Extrato() { }
+        public void Extrato(Conta conta, string oprecao, decimal valor) { }
 
         public void AlterarDadosCadastrais() { }
 
         public void Transferencia() { }
+
+        public void SalvaContas() { }
 
         public string ValidaCpf(string cPF)
         {

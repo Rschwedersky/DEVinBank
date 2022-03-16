@@ -1,20 +1,22 @@
 ﻿using DEVinBank;
- 
-            bool showMenu = true;
+
+List<Conta> listaContas = new List<Conta>();
+    bool showMenu = true;
             
             while (showMenu)
             {
                  showMenu = MainMenu();
             }
        
-         static bool MainMenu()
+          bool MainMenu()
         {
             Console.Clear();
             Console.WriteLine("Choose an option:");
             Console.WriteLine("1) Abrir uma conta");
-            Console.WriteLine("2) Operações");
-            Console.WriteLine("2) Relatórios");
-            Console.WriteLine("3) Exit");
+            Console.WriteLine("2) Conta Corrente");
+            Console.WriteLine("3) Conta poupança");  
+            Console.WriteLine("4) Conta investimento");
+            Console.WriteLine("5) Exit");
             Console.Write("\r\nSelect an option: ");
 
             switch (Console.ReadLine())
@@ -23,61 +25,150 @@
                  AbrirContaMenu();
                  return true;
                 case "2":
-                    RemoveWhitespace();
+                    AcessarContaCorrenteMenu();
                     return true;
                 case "3":
+                    //AcessarContaPoupancaMenu();
+                    return true;
+                case "4":
+                    //AcessarContaInvestimentoMenu();
+                    return true;
+                case "5":
                     return false;
                 default:
                     return true;
             }
         }
 
-         static string CaptureInput()
-        {
-            Console.Write("Enter the string you want to modify: ");
-            return Console.ReadLine();
-        }
+      
+  
 
-         static void ReverseString()
-        {
-            Console.Clear();
-            Console.WriteLine("Reverse String");
-
-            char[] charArray = CaptureInput().ToCharArray();
-            Array.Reverse(charArray);
-            DisplayResult(String.Concat(charArray));
-        }
-
-        static void RemoveWhitespace()
-        {
-            Console.Clear();
-            Console.WriteLine("Remove Whitespace");
-
-            DisplayResult(CaptureInput().Replace(" ", ""));
-        }
-
-         static void DisplayResult(string message)
-        {
-            Console.WriteLine($"\r\nYour modified string is: {message}");
-            Console.Write("\r\nPress Enter to return to Main Menu");
-            Console.ReadLine();
-        }
-
-static bool AbrirContaMenu()
+ bool AbrirContaMenu()
 {
-    string nome = "";
-    string tryCpf = "";
-    string cPF = "";
-    string endereco = "";
-    string tryRendaMensal = "";
-    decimal rendaMensal = 0;
-    string agencia = "";
-    
+
+
 
     Console.Clear();
-    Console.Write("Type your name, and then press Enter: ");
-    nome = Console.ReadLine();
-    
+
+    Console.WriteLine("Tipo de Conta:");
+    Console.WriteLine("1) Conta Corrente");
+    Console.WriteLine("2) Conta Poupanca");
+    Console.WriteLine("3) Conta Investimento");
+    Console.WriteLine("4) Voltar");
+    Console.Write("\r\nSelect an option: ");
+    switch (Console.ReadLine())
+    {
+        case "1":
+            AbrirContaCorrenteMenu();
+            return true;
+        case "2":
+            //AbrirContaPoupancaMenu();
+            return true;
+        case "3":
+            //AbrirContaIvestimentoMenu(); ;
+            return true;
+        case "4":
+            return false;
+        default:
+            return true;
+    }
+}
+     bool AbrirContaCorrenteMenu()
+    {
+    string nome = "";
+        string cPF = "";
+        string endereco = "";
+        string tryRendaMensal = "";
+        decimal rendaMensal = 0;
+        
+
+        Console.Write("Type your name, and then press Enter: ");
+        nome = Console.ReadLine();
+
+        cPF = PedirCpf();
+
+        Console.Write("Type your endereco, and then press Enter: ");
+        endereco = Console.ReadLine();
+
+        Console.Write("Type your renda mensal, and then press Enter: ");
+        tryRendaMensal = Console.ReadLine();
+        while (!decimal.TryParse(tryRendaMensal, out rendaMensal))
+        {
+            Console.Write("This is not valid input. Please enter an integer value: ");
+            tryRendaMensal = Console.ReadLine();
+        }
+
+
+        Console.WriteLine("Agencia:");
+        Console.WriteLine("1) 001 - Florianópolis");
+        Console.WriteLine("2) 002 - São José");
+        Console.WriteLine("3) 003 - Biguaçu");
+        Console.WriteLine("4) Voltar");
+        Console.Write("\r\nSelect an option: ");
+        switch (Console.ReadLine())
+        {
+            case "1":
+                ContaCorrente conta = new ContaCorrente(nome, cPF, endereco, rendaMensal, "001 - Florianópolis");
+                listaContas.Add(conta);
+            Conta result = listaContas.Find(item=>item.CPF == cPF);//TODO
+            Console.WriteLine(result);
+                Console.ReadLine();
+            return true;
+            case "2":
+                ContaCorrente conta2 = new ContaCorrente(nome, cPF, endereco, rendaMensal, "002 - São José");
+                listaContas.Add(conta2);
+                return true;
+            case "3":
+                ContaCorrente conta3 = new ContaCorrente(nome, cPF, endereco, rendaMensal, "003 - Biguaçu");
+                listaContas.Add(conta3);
+                return true;
+            case "4":
+                return false;
+            default:
+                return true;
+        }
+    }
+
+
+ bool AcessarContaCorrenteMenu()
+{
+    string cPF = PedirCpf();//TODO
+    Conta result = listaContas.Find(item => item.CPF == cPF);
+
+    Console.WriteLine("Choose an option:");
+    Console.WriteLine("1) Depositar");
+    Console.WriteLine("2) --");
+    Console.WriteLine("2) --");
+    Console.WriteLine("2) --");
+    Console.WriteLine("3) Exit");
+    Console.Write("\r\nSelect an option: ");
+
+    switch (Console.ReadLine())
+    {
+        case "1":
+            Depositar();
+            Console.WriteLine($"O valor de {result.Saldo} foi depositado");
+            Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
+            Console.ReadLine();
+            return true;
+        case "2":
+            
+            return true;
+        case "3":
+            
+            return true;
+        case "4":
+            
+            return true;
+        case "5":
+            return false;
+        default:
+            return true;
+    }
+}
+string PedirCpf()
+{
+    string tryCpf = "";
     Console.Write("Type your CPF, and then press Enter: ");
     tryCpf = Console.ReadLine();
     CPFCNPJ.IMain testaCpf = new CPFCNPJ.Main();
@@ -86,40 +177,25 @@ static bool AbrirContaMenu()
         Console.Write("CPF invalido! repita seu CPF: ");
         tryCpf = Console.ReadLine();
     }
-    cPF = tryCpf;
-
-    Console.Write("Type your endereco, and then press Enter: ");
-    endereco = Console.ReadLine();
-
-    Console.Write("Type your renda mensal, and then press Enter: ");
-    tryRendaMensal = Console.ReadLine();
-    while (!decimal.TryParse(tryRendaMensal, out rendaMensal))
+    return tryCpf;
+}
+void Depositar()
+{
+    string cPF = PedirCpf();
+    decimal valorDeposito = 0;
+    string tryValorDeposito = "";
+    Console.Write("Digite o valor a ser depositado: ");
+    tryValorDeposito = Console.ReadLine();
+    while (!decimal.TryParse(tryValorDeposito, out valorDeposito))
     {
         Console.Write("This is not valid input. Please enter an integer value: ");
-        tryRendaMensal = Console.ReadLine();
+        tryValorDeposito = Console.ReadLine();
     }
-
-
-    Console.WriteLine("Agencia:");
-    Console.WriteLine("1) 001 - Florianópolis");
-    Console.WriteLine("2) 002 - São José");
-    Console.WriteLine("4) 003 - Biguaçu");
-    Console.WriteLine("4) Voltar");
-    Console.Write("\r\nSelect an option: ");
-    switch (Console.ReadLine())
+    foreach (var item in listaContas)
     {
-        case "1":
-            Conta conta=new Conta(nome, cPF,endereco,rendaMensal, "001 - Florianópolis");
-            return true;
-        case "2":
-            Conta conta2 = new Conta(nome, cPF, endereco, rendaMensal, "002 - São José");
-            return true;
-        case "3":
-            Conta conta3 = new Conta(nome, cPF, endereco, rendaMensal, "003 - Biguaçu");
-            return true;
-        case "4":
-            return false;
-        default:
-            return true;
+        if (item.CPF == cPF)
+        {
+            item.Deposito(valorDeposito);
+        }
     }
 }
