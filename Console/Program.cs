@@ -167,10 +167,10 @@ bool showMenu = true;
             Sacar(id);
             return true;
         case "3":
-            
+            Extrato(id);
             return true;
         case "4":
-            VerSaldo(id); // id como parametro!!!!!!!!
+            VerSaldo(id);
             return true;
         case "5":
             return false;
@@ -227,7 +227,7 @@ void Depositar(int id)
         if (item.NumeroConta == id)
         {
             item.Deposito(valorDeposito);
-            Extrato extrato = new Extrato(valorDeposito, item, "Deposito Conta Corrente");
+            Extrato extrato = new Extrato(valorDeposito, item, "Deposito");
             listaExtrato.Add(extrato);
         }
         Console.WriteLine("Deposito realizado!");
@@ -253,7 +253,10 @@ void Sacar(int id)
     {
         if (item.NumeroConta == id)
         {
-            try { item.Saque(valorSaque); }
+            try { item.Saque(valorSaque);
+                    Extrato extrato = new Extrato(valorSaque, item, "Saque");
+                    listaExtrato.Add(extrato);
+            }
             catch (Exception)
             {
                 Console.WriteLine("Saldo insuficiente"); 
@@ -270,7 +273,21 @@ void Sacar(int id)
         }
     }
 }
-void VerSaldo(int id)
+
+void Extrato(int id)
+{
+    foreach (var item in listaExtrato)
+    {
+        if (item.ContaOrigem.NumeroConta == id)
+        {
+            Console.WriteLine($"A conta:  {item.ContaOrigem.NumeroConta} fez a movimentacao:  {item.Tipo}  de valor:  {item.Valor} no dia:  {item.Date}");
+        }
+        Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
+        Console.ReadLine();
+        MainMenu();
+    }
+}
+    void VerSaldo(int id)
 {
     
     foreach (var item in listaContas)

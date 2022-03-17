@@ -15,6 +15,10 @@ namespace DEVinBank
         {
             return valorInvestido * RendimentoAoAno * meses;
         }
+        public override void Deposito(decimal value)
+        {
+            base.Deposito(value);
+        }
     }
 
 }
