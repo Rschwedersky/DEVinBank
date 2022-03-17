@@ -1,7 +1,9 @@
 ﻿using DEVinBank;
 
 List<Conta> listaContas = new List<Conta>();
-    bool showMenu = true;
+List<Extrato> listaExtrato = new List<Extrato>();
+
+bool showMenu = true;
             
             while (showMenu)
             {
@@ -13,9 +15,9 @@ List<Conta> listaContas = new List<Conta>();
             Console.Clear();
             Console.WriteLine("Choose an option:");
             Console.WriteLine("1) Abrir uma conta");
-            Console.WriteLine("2) Conta Corrente");
-            Console.WriteLine("3) Conta poupança");  
-            Console.WriteLine("4) Conta investimento");
+            Console.WriteLine("2) Acessar Conta Corrente");
+            Console.WriteLine("3) Acessar Conta poupança");  
+            Console.WriteLine("4) Acessar Conta investimento");
             Console.WriteLine("5) Exit");
             Console.Write("\r\nSelect an option: ");
 
@@ -192,6 +194,8 @@ void Depositar()
         if (item.CPF == cPF)
         {
             item.Deposito(valorDeposito);
+            Extrato extrato = new Extrato(valorDeposito, item, "Deposito Conta Corrente");
+            listaExtrato.Add(extrato);
         }
         Console.WriteLine("Deposito realizado!");
         Console.WriteLine($"O valor de {item.Saldo} foi depositado");
@@ -220,8 +224,11 @@ void Sacar()
             try { item.Saque(valorSaque); }
             catch (Exception)
             {
-                Console.WriteLine("Saldo insuficiente");
-                
+                Console.WriteLine("Saldo insuficiente"); 
+                Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
+                Console.ReadLine();
+                AcessarContaCorrenteMenu();
+
             }
             Console.WriteLine("Saque realizado!");
             Console.WriteLine($"O saldo atual é: {item.Saldo}");
