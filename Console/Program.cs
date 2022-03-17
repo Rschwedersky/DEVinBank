@@ -61,7 +61,8 @@ bool showMenu = true;
     switch (Console.ReadLine())
     {
         case "1":
-            AbrirContaCorrenteMenu();
+            string tipo = "Conta corrente";
+            AbrirContaCorrenteMenu(tipo);
             return true;
         case "2":
             //AbrirContaPoupancaMenu();
@@ -75,9 +76,10 @@ bool showMenu = true;
             return true;
     }
 }
-     bool AbrirContaCorrenteMenu()
+     bool AbrirContaCorrenteMenu(string info)
     {
-    string nome = "";
+        string tipo=info;
+        string nome = "";
         string cPF = "";
         string endereco = "";
         string tryRendaMensal = "";
@@ -86,11 +88,21 @@ bool showMenu = true;
 
         Console.Write("Type your name, and then press Enter: ");
         nome = Console.ReadLine();
+        while (nome is null)
+        {
+            Console.Write("This is not valid input. Please enter an string value: ");
+            nome = Console.ReadLine();
+        }
 
         cPF = PedirCpf();
 
         Console.Write("Type your endereco, and then press Enter: ");
         endereco = Console.ReadLine();
+        while (endereco is null)
+        {
+            Console.Write("This is not valid input. Please enter an string value: ");
+            endereco = Console.ReadLine();
+        }
 
         Console.Write("Type your renda mensal, and then press Enter: ");
         tryRendaMensal = Console.ReadLine();
@@ -110,13 +122,25 @@ bool showMenu = true;
         switch (Console.ReadLine())
         {
             case "1":
-                ContaCorrente conta = new ContaCorrente(nome, cPF, endereco, rendaMensal, "001 - Florianópolis");
-                listaContas.Add(conta);
-            Conta result = listaContas.Find(item=>item.CPF == cPF);//TODO
-            Console.WriteLine(result);
-                Console.ReadLine();
+            switch (info)
+            {
+                case "Conta corrente":
+                    ContaCorrente contaCorrente = new ContaCorrente(nome, cPF, endereco, rendaMensal, "001 - Florianópolis");
+                    listaContas.Add(contaCorrente);
+                    Console.WriteLine("Conta criada com sucesso!");
+                    Console.WriteLine($"Guarde o numero:{contaCorrente.NumeroConta} para acessa-la posteiormente");
+                    Console.ReadLine();
+                    return true;
+                case "Conta Poupanca":
+                    ContaPoupanca contaPoupanca = new ContaPoupanca(nome, cPF, endereco, rendaMensal, "001 - Florianópolis");
+                    listaContas.Add(contaPoupanca);
+                    Console.WriteLine("Conta criada com sucesso!");
+                    Console.WriteLine($"Guarde o numero:{contaPoupanca.NumeroConta} para acessa-la posteiormente");
+                    Console.ReadLine();
+                    return true;
+            }
             return true;
-            case "2":
+        case "2":
                 ContaCorrente conta2 = new ContaCorrente(nome, cPF, endereco, rendaMensal, "002 - São José");
                 listaContas.Add(conta2);
                 return true;
@@ -139,7 +163,7 @@ bool showMenu = true;
     Console.WriteLine("Choose an option:");
     Console.WriteLine("1) Depositar");
     Console.WriteLine("2) Sacar");
-    Console.WriteLine("3) --");
+    Console.WriteLine("3) Extrato");
     Console.WriteLine("4) Saldo");
     Console.WriteLine("5) Voltar ao menu Inicial");
     Console.Write("\r\nSelect an option: ");
