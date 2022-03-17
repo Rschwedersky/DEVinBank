@@ -105,7 +105,7 @@ bool showMenu = true;
         Console.WriteLine("1) 001 - Florianópolis");
         Console.WriteLine("2) 002 - São José");
         Console.WriteLine("3) 003 - Biguaçu");
-        Console.WriteLine("4) Voltar");
+        Console.WriteLine("4) Voltar ao menu Inicial");
         Console.Write("\r\nSelect an option: ");
         switch (Console.ReadLine())
         {
@@ -139,9 +139,9 @@ bool showMenu = true;
     Console.WriteLine("Choose an option:");
     Console.WriteLine("1) Depositar");
     Console.WriteLine("2) Sacar");
-    Console.WriteLine("2) --");
-    Console.WriteLine("2) --");
-    Console.WriteLine("3) Exit");
+    Console.WriteLine("3) --");
+    Console.WriteLine("4) Saldo");
+    Console.WriteLine("5) Voltar ao menu Inicial");
     Console.Write("\r\nSelect an option: ");
 
     switch (Console.ReadLine())
@@ -156,7 +156,7 @@ bool showMenu = true;
             
             return true;
         case "4":
-            
+            VerSaldo(); // id como parametro!!!!!!!!
             return true;
         case "5":
             return false;
@@ -231,6 +231,21 @@ void Sacar()
 
             }
             Console.WriteLine("Saque realizado!");
+            Console.WriteLine($"O saldo atual é: {item.Saldo}");
+            Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
+            Console.ReadLine();
+            AcessarContaCorrenteMenu();
+        }
+    }
+}
+void VerSaldo()
+{
+    string cPF = PedirCpf();
+   
+    foreach (var item in listaContas)
+    {
+        if (item.CPF == cPF)
+        {
             Console.WriteLine($"O saldo atual é: {item.Saldo}");
             Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
             Console.ReadLine();
