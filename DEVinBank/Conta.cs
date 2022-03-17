@@ -7,11 +7,12 @@
         public string Endereço { get; private set; }
         public decimal RendaMensal { get; private set; }
         public int NumeroConta { get; private set; }
-        public static int Contador = 0;
+        
+        private static int Contador = 0;
         public string Agencia { get; private set; }
         public decimal Saldo { get; private protected set; }
         
-        public List<Extrato> ListaExtrato { get; private set; }
+        public List<Extrato>? ListaExtrato { get; private set; }
 
         public Conta(string nome, string cPF, string endereço, decimal rendaMensal, string agencia)
         {
@@ -34,7 +35,7 @@
             Saldo -= value;
         }
 
-        public  void Deposito(decimal value) {
+        public virtual void Deposito(decimal value) {
             
             this.Saldo += value;
             

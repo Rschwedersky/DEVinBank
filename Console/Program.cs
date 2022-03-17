@@ -1,7 +1,7 @@
 ﻿using DEVinBank;
 
-List<Conta> listaContas = new List<Conta>();
-List<Extrato> listaExtrato = new List<Extrato>();
+List<Conta> listaContas = new ();
+List<Extrato> listaExtrato = new ();
 
 bool showMenu = true;
             
@@ -24,8 +24,8 @@ bool showMenu = true;
             switch (Console.ReadLine())
             {
                 case "1":
-                 AbrirContaMenu();
-                 return true;
+                     AbrirContaMenu();
+                     return true;
                 case "2":
                     AcessarContaCorrenteMenu();
                     return true;
@@ -47,11 +47,7 @@ bool showMenu = true;
 
  bool AbrirContaMenu()
 {
-
-
-
     Console.Clear();
-
     Console.WriteLine("Tipo de Conta:");
     Console.WriteLine("1) Conta Corrente");
     Console.WriteLine("2) Conta Poupanca");
@@ -61,11 +57,10 @@ bool showMenu = true;
     switch (Console.ReadLine())
     {
         case "1":
-            string tipo = "Conta corrente";
-            AbrirContaCorrenteMenu(tipo);
+            AbrirContaCadastro("Conta corrente");
             return true;
         case "2":
-            //AbrirContaPoupancaMenu();
+            AbrirContaCadastro("Conta poupanca");
             return true;
         case "3":
             //AbrirContaIvestimentoMenu(); ;
@@ -76,28 +71,22 @@ bool showMenu = true;
             return true;
     }
 }
-     bool AbrirContaCorrenteMenu(string info)
+     bool AbrirContaCadastro(string info)
     {
-        string tipo=info;
-        string nome = "";
-        string cPF = "";
-        string endereco = "";
-        string tryRendaMensal = "";
         decimal rendaMensal = 0;
-        
-
+       
         Console.Write("Type your name, and then press Enter: ");
-        nome = Console.ReadLine();
+        string nome = Console.ReadLine();
         while (nome is null)
         {
             Console.Write("This is not valid input. Please enter an string value: ");
             nome = Console.ReadLine();
         }
 
-        cPF = PedirCpf();
+        string cPF = PedirCpf();
 
         Console.Write("Type your endereco, and then press Enter: ");
-        endereco = Console.ReadLine();
+        string endereco = Console.ReadLine();
         while (endereco is null)
         {
             Console.Write("This is not valid input. Please enter an string value: ");
@@ -105,7 +94,7 @@ bool showMenu = true;
         }
 
         Console.Write("Type your renda mensal, and then press Enter: ");
-        tryRendaMensal = Console.ReadLine();
+        string tryRendaMensal = Console.ReadLine();
         while (!decimal.TryParse(tryRendaMensal, out rendaMensal))
         {
             Console.Write("This is not valid input. Please enter an integer value: ");
@@ -125,27 +114,27 @@ bool showMenu = true;
             switch (info)
             {
                 case "Conta corrente":
-                    ContaCorrente contaCorrente = new ContaCorrente(nome, cPF, endereco, rendaMensal, "001 - Florianópolis");
+                    ContaCorrente contaCorrente = new (nome, cPF, endereco, rendaMensal, "001 - Florianópolis");
                     listaContas.Add(contaCorrente);
                     Console.WriteLine("Conta criada com sucesso!");
                     Console.WriteLine($"Guarde o numero:{contaCorrente.NumeroConta} para acessa-la posteiormente");
                     Console.ReadLine();
                     return true;
-                case "Conta Poupanca":
-                    ContaPoupanca contaPoupanca = new ContaPoupanca(nome, cPF, endereco, rendaMensal, "001 - Florianópolis");
+                case "Conta poupanca":
+                    ContaPoupanca contaPoupanca = new (nome, cPF, endereco, rendaMensal, "001 - Florianópolis");
                     listaContas.Add(contaPoupanca);
                     Console.WriteLine("Conta criada com sucesso!");
-                    Console.WriteLine($"Guarde o numero:{contaPoupanca.NumeroConta} para acessa-la posteiormente");
+                    Console.WriteLine($"Guarde o numero:{contaPoupanca.NumeroConta} para acessa-la posteriormente");
                     Console.ReadLine();
                     return true;
             }
             return true;
         case "2":
-                ContaCorrente conta2 = new ContaCorrente(nome, cPF, endereco, rendaMensal, "002 - São José");
+                ContaCorrente conta2 = new (nome, cPF, endereco, rendaMensal, "002 - São José");
                 listaContas.Add(conta2);
                 return true;
             case "3":
-                ContaCorrente conta3 = new ContaCorrente(nome, cPF, endereco, rendaMensal, "003 - Biguaçu");
+                ContaCorrente conta3 = new (nome, cPF, endereco, rendaMensal, "003 - Biguaçu");
                 listaContas.Add(conta3);
                 return true;
             case "4":
@@ -158,7 +147,8 @@ bool showMenu = true;
 
  bool AcessarContaCorrenteMenu()
 {
-
+    int id = PedirId();
+    
     Console.Clear();
     Console.WriteLine("Choose an option:");
     Console.WriteLine("1) Depositar");
@@ -167,20 +157,20 @@ bool showMenu = true;
     Console.WriteLine("4) Saldo");
     Console.WriteLine("5) Voltar ao menu Inicial");
     Console.Write("\r\nSelect an option: ");
-
+    
     switch (Console.ReadLine())
     {
         case "1":
-            Depositar();
+            Depositar(id);
             return true;
         case "2":
-            Sacar();
+            Sacar(id);
             return true;
         case "3":
             
             return true;
         case "4":
-            VerSaldo(); // id como parametro!!!!!!!!
+            VerSaldo(id); // id como parametro!!!!!!!!
             return true;
         case "5":
             return false;
@@ -201,13 +191,32 @@ string PedirCpf()
     }
     return tryCpf;
 }
-void Depositar()
+int PedirId()
 {
-    string cPF = PedirCpf();
+    int id = -1;
+    Console.Write("Digite o numero da sua conta e aperte Enter: ");
+    string tryId = Console.ReadLine();
+    
+    while (!int.TryParse(tryId, out id))
+    {
+        Console.Write("Numero da conta não encontrado! repita seu Numero da conta: ");
+        tryId = Console.ReadLine();
+    }
+    foreach (var item in listaContas)
+    {
+        if (item.NumeroConta == id)
+        {
+            return id;
+        }
+    }
+    return id;
+}
+
+void Depositar(int id)
+{
     decimal valorDeposito = 0;
-    string tryValorDeposito = "";
     Console.Write("Digite o valor a ser depositado: ");
-    tryValorDeposito = Console.ReadLine();
+    string tryValorDeposito = Console.ReadLine();
     while (!decimal.TryParse(tryValorDeposito, out valorDeposito))
     {
         Console.Write("This is not valid input. Please enter an integer value: ");
@@ -215,7 +224,7 @@ void Depositar()
     }
     foreach (var item in listaContas)
     {
-        if (item.CPF == cPF)
+        if (item.NumeroConta == id)
         {
             item.Deposito(valorDeposito);
             Extrato extrato = new Extrato(valorDeposito, item, "Deposito Conta Corrente");
@@ -225,17 +234,16 @@ void Depositar()
         Console.WriteLine($"O valor de {item.Saldo} foi depositado");
         Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
         Console.ReadLine();
+        MainMenu();
     }
     
 }
 
-void Sacar()
+void Sacar(int id)
 {
-    string cPF = PedirCpf();
     decimal valorSaque = 0;
-    string tryValorSaque = "";
     Console.Write("Digite o valor a ser retirado: ");
-    tryValorSaque = Console.ReadLine();
+    string tryValorSaque = Console.ReadLine();
     while (!decimal.TryParse(tryValorSaque, out valorSaque))
     {
         Console.Write("This is not valid input. Please enter an integer value: ");
@@ -243,7 +251,7 @@ void Sacar()
     }
     foreach (var item in listaContas)
     {
-        if (item.CPF == cPF)
+        if (item.NumeroConta == id)
         {
             try { item.Saque(valorSaque); }
             catch (Exception)
@@ -258,22 +266,21 @@ void Sacar()
             Console.WriteLine($"O saldo atual é: {item.Saldo}");
             Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
             Console.ReadLine();
-            AcessarContaCorrenteMenu();
+            MainMenu();
         }
     }
 }
-void VerSaldo()
+void VerSaldo(int id)
 {
-    string cPF = PedirCpf();
-   
+    
     foreach (var item in listaContas)
     {
-        if (item.CPF == cPF)
+        if (item.NumeroConta == id)
         {
             Console.WriteLine($"O saldo atual é: {item.Saldo}");
             Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
             Console.ReadLine();
-            AcessarContaCorrenteMenu();
+            MainMenu();
         }
     }
 }
