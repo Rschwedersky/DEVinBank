@@ -161,8 +161,9 @@ bool showMenu = true;
     Console.WriteLine("2) Sacar");
     Console.WriteLine("3) Extrato");
     Console.WriteLine("4) Saldo");
-    if(tipo == "Conta poupanca") { Console.WriteLine("10) Simular"); }
-    Console.WriteLine("5) Voltar ao menu Inicial");
+    Console.WriteLine("5) Transferir");
+    if (tipo == "Conta poupanca") { Console.WriteLine("10) Simular"); }
+    Console.WriteLine("6) Voltar ao menu Inicial");
     Console.Write("\r\nSelect an option: ");
     
     switch (Console.ReadLine())
@@ -183,6 +184,9 @@ bool showMenu = true;
             VerSaldo(id);
             return true;
         case "5":
+           Transferir(id);
+            return true;
+        case "6":
             return false;
         default:
             return true;
@@ -209,7 +213,7 @@ int PedirId()
     
     while (!int.TryParse(tryId, out id))
     {
-        Console.Write("Numero da conta não encontrado! repita seu Numero da conta: ");
+        Console.Write("Digite um numero por favor: ");
         tryId = Console.ReadLine();
     }
     foreach (var item in listaContas)
@@ -326,7 +330,6 @@ void VerSimulacao(int id)
 
     void VerSaldo(int id)
 {
-    
     foreach (var item in listaContas)
     {
         if (item.NumeroConta == id)
@@ -338,3 +341,70 @@ void VerSimulacao(int id)
         }
     }
 }
+
+void Transferir(int id)
+{
+    int idTransferencia = PedirIdTranferencia();
+    int PedirIdTranferencia()
+    {
+        int idTransferencia = 0;
+        Console.Write("Digite o numero da conta que receberá a transferencia e aperte Enter: ");
+        string tryId = Console.ReadLine();
+
+        while (!int.TryParse(tryId, out idTransferencia))
+        {
+            Console.Write("Digite o numero da conta que receberá a transferencia e aperte Enter: ");
+            tryId = Console.ReadLine();
+        }
+        foreach (var contaTransferencia in listaContas)
+        {
+            if (contaTransferencia.NumeroConta == idTransferencia)
+            {
+                return idTransferencia;
+            }
+        }
+        return idTransferencia;
+    }
+    if (idTransferencia == 0)
+    {
+        Console.WriteLine("Conta inexistente aperte qualquer tecla para voltar ao menu anterior");
+        Console.ReadLine();
+        MainMenu();
+    }
+    Conta contaSaida = listaContas.Find(i => i.NumeroConta == id);
+    Conta contaEntrada = listaContas.Find(i => i.NumeroConta == idTransferencia);
+    double valorTransferencia = 0;
+    Console.Write("Digite o valor a ser retirado: ");
+    string tryValorTransferencia = Console.ReadLine();
+    while (!double.TryParse(tryValorTransferencia, out valorTransferencia))
+    {
+        Console.Write("This is not valid input. Please enter an integer value: ");
+        tryValorTransferencia = Console.ReadLine();
+    }
+    
+    try
+    {
+        contaSaida.Transferencia(valorTransferencia, contaEntrada);
+        Extrato extrato = new Extrato(valorTransferencia, contaSaida, contaEntrada, "Transferência");
+        listaExtrato.Add(extrato);
+    }
+    catch (Exception)
+    {
+        Console.WriteLine("Saldo insuficiente");
+        Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
+        Console.ReadLine();
+        MainMenu();
+
+    }
+    Console.WriteLine("Transerencia realizada!");
+    Console.WriteLine($"O saldo atual é: {contaSaida.Saldo}");
+    Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
+    Console.ReadLine();
+    MainMenu();
+
+
+
+}
+
+
+

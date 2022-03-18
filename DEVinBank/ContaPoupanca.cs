@@ -15,8 +15,7 @@ namespace DEVinBank
         { }
         public static double SimularPoupanca(double valorInvestido, double meses)
         {
-            double parcial = valorInvestido * (Math.Pow((1.0 + RendimentoAoMes), meses));
-            return (parcial);
+            return (valorInvestido * (Math.Pow((1.0 + RendimentoAoMes), meses)));
         }
         public override void Deposito(double value)
         {
@@ -24,13 +23,13 @@ namespace DEVinBank
             DataRendimento = DateTime.Now;
         }
 
-        //public override decimal GetSaldo()
-        //{
-        //    DateTime timeNow =DateTime.Now;
-        //    var dateSpan = DateTimeSpan.CompareDates(compareTo, now);
-        //   if ()
-        //  return Saldo;
-        //}
+        public override double GetSaldo()
+        {
+            DateTime timeNow =DateTime.Now;
+            var dateSpan = DateTimeSpan.CompareDates(DataRendimento, timeNow);
+           if (dateSpan.Months>0) Saldo = (Saldo * (Math.Pow((1.0 + RendimentoAoMes), dateSpan.Months)));
+          return Saldo;
+        }
 
     }
 }
