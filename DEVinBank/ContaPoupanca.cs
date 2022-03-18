@@ -8,17 +8,29 @@ namespace DEVinBank
 {
     public class ContaPoupanca : Conta
     {
-        private readonly decimal RendimentoAoAno= 1.0617M;
-        public ContaPoupanca(string nome, string cPF, string endereço, decimal rendaMensal, string agencia) : base(nome, cPF, endereço, rendaMensal, agencia)
-        {}
-        public decimal SimularPoupanca(decimal valorInvestido, int meses)
+        public DateTime DataRendimento = DateTime.Now;
+
+        private static double RendimentoAoMes = .0617;
+        public ContaPoupanca(string nome, string cPF, string endereço, double rendaMensal, string agencia) : base(nome, cPF, endereço, rendaMensal, agencia)
+        { }
+        public static double SimularPoupanca(double valorInvestido, double meses)
         {
-            return valorInvestido * RendimentoAoAno * meses;
+            double parcial = valorInvestido * (Math.Pow((1.0 + RendimentoAoMes), meses));
+            return (parcial);
         }
-        public override void Deposito(decimal value)
+        public override void Deposito(double value)
         {
             base.Deposito(value);
+            DataRendimento = DateTime.Now;
         }
-    }
 
+        //public override decimal GetSaldo()
+        //{
+        //    DateTime timeNow =DateTime.Now;
+        //    var dateSpan = DateTimeSpan.CompareDates(compareTo, now);
+        //   if ()
+        //  return Saldo;
+        //}
+
+    }
 }

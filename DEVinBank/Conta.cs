@@ -5,19 +5,19 @@
         public string Nome { get; private set; }
         public string CPF { get; private set; }
         public string Endereço { get; private set; }
-        public decimal RendaMensal { get; private set; }
+        public double RendaMensal { get; private set; }
         public int NumeroConta { get; private set; }
         
-        private static int Contador = 0;
+        private static int Contador = 1;
         public string Agencia { get; private set; }
-        public decimal Saldo { get; private protected set; }
+        public double Saldo { get; private protected set; }
         
         public List<Extrato>? ListaExtrato { get; private set; }
 
-        public Conta(string nome, string cPF, string endereço, decimal rendaMensal, string agencia)
+        public Conta(string nome, string cPF, string endereço, double rendaMensal, string agencia)
         {
             Nome = nome;
-            CPF = ValidaCpf(cPF);
+            CPF = cPF;
             Endereço = endereço;
             RendaMensal = rendaMensal;
             NumeroConta = Contador;
@@ -26,7 +26,7 @@
            
         }
 
-        public virtual void Saque(decimal value) {
+        public virtual void Saque(double value) {
             if (Saldo < value)
             {
                 throw new Exception("Balance unavailable.");
@@ -35,14 +35,14 @@
             Saldo -= value;
         }
 
-        public virtual void Deposito(decimal value) {
+        public virtual void Deposito(double value) {
             
             this.Saldo += value;
             
 
         }
 
-        public decimal GetSaldo() {
+        public virtual double GetSaldo() {
             return Saldo;
         }
 
@@ -51,14 +51,8 @@
 
         public void Transferencia() { }
 
-        public void SalvaContas() { }
-
-        public string ValidaCpf(string cPF)
-        {
-            CPFCNPJ.IMain testaCpf = new CPFCNPJ.Main();
-            if (testaCpf.IsValidCPFCNPJ(cPF) == true) return cPF;
-            else throw new Exception("CPF inválido");
-        }
+       
+ 
 
     }
 }

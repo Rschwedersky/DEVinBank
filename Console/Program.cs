@@ -27,10 +27,10 @@ bool showMenu = true;
                      AbrirContaMenu();
                      return true;
                 case "2":
-                    AcessarContaCorrenteMenu();
+                    AcessarContaMenu("Conta corrente");
                     return true;
                 case "3":
-                    //AcessarContaPoupancaMenu();
+                    AcessarContaMenu("Conta poupanca");
                     return true;
                 case "4":
                     //AcessarContaInvestimentoMenu();
@@ -73,7 +73,7 @@ bool showMenu = true;
 }
      bool AbrirContaCadastro(string info)
     {
-        decimal rendaMensal = 0;
+    double rendaMensal = 0;
        
         Console.Write("Type your name, and then press Enter: ");
         string nome = Console.ReadLine();
@@ -95,7 +95,7 @@ bool showMenu = true;
 
         Console.Write("Type your renda mensal, and then press Enter: ");
         string tryRendaMensal = Console.ReadLine();
-        while (!decimal.TryParse(tryRendaMensal, out rendaMensal))
+        while (!double.TryParse(tryRendaMensal, out rendaMensal))
         {
             Console.Write("This is not valid input. Please enter an integer value: ");
             tryRendaMensal = Console.ReadLine();
@@ -145,16 +145,23 @@ bool showMenu = true;
     }
 
 
- bool AcessarContaCorrenteMenu()
+ bool AcessarContaMenu(string tipo)
 {
     int id = PedirId();
-    
+    if (id == 0)
+    {
+        Console.WriteLine("Conta inexistente aperte qualquer tecla para voltar ao menu inicial");
+        Console.ReadLine();
+        MainMenu();
+    }
+
     Console.Clear();
     Console.WriteLine("Choose an option:");
     Console.WriteLine("1) Depositar");
     Console.WriteLine("2) Sacar");
     Console.WriteLine("3) Extrato");
     Console.WriteLine("4) Saldo");
+    if(tipo == "Conta poupanca") { Console.WriteLine("10) Simular"); }
     Console.WriteLine("5) Voltar ao menu Inicial");
     Console.Write("\r\nSelect an option: ");
     
@@ -168,6 +175,9 @@ bool showMenu = true;
             return true;
         case "3":
             Extrato(id);
+            return true;
+        case "10":
+            VerSimulacao(id);
             return true;
         case "4":
             VerSaldo(id);
@@ -193,7 +203,7 @@ string PedirCpf()
 }
 int PedirId()
 {
-    int id = -1;
+    int id = 0;
     Console.Write("Digite o numero da sua conta e aperte Enter: ");
     string tryId = Console.ReadLine();
     
@@ -214,10 +224,10 @@ int PedirId()
 
 void Depositar(int id)
 {
-    decimal valorDeposito = 0;
+    double valorDeposito = 0;
     Console.Write("Digite o valor a ser depositado: ");
     string tryValorDeposito = Console.ReadLine();
-    while (!decimal.TryParse(tryValorDeposito, out valorDeposito))
+    while (!double.TryParse(tryValorDeposito, out valorDeposito))
     {
         Console.Write("This is not valid input. Please enter an integer value: ");
         tryValorDeposito = Console.ReadLine();
@@ -241,10 +251,10 @@ void Depositar(int id)
 
 void Sacar(int id)
 {
-    decimal valorSaque = 0;
+    double valorSaque = 0;
     Console.Write("Digite o valor a ser retirado: ");
     string tryValorSaque = Console.ReadLine();
-    while (!decimal.TryParse(tryValorSaque, out valorSaque))
+    while (!double.TryParse(tryValorSaque, out valorSaque))
     {
         Console.Write("This is not valid input. Please enter an integer value: ");
         tryValorSaque = Console.ReadLine();
@@ -262,7 +272,7 @@ void Sacar(int id)
                 Console.WriteLine("Saldo insuficiente"); 
                 Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
                 Console.ReadLine();
-                AcessarContaCorrenteMenu();
+                MainMenu();
 
             }
             Console.WriteLine("Saque realizado!");
@@ -287,6 +297,33 @@ void Extrato(int id)
         MainMenu();
     }
 }
+
+void VerSimulacao(int id)
+{
+    double valorInvestido = 0;
+    Console.Write("Digite o valor a ser Investido: ");
+    string tryValorInvestido = Console.ReadLine();
+    while (!double.TryParse(tryValorInvestido, out valorInvestido))
+    {
+        Console.Write("This is not valid input. Please enter an integer value: ");
+        tryValorInvestido = Console.ReadLine();
+    }
+    double meses = 0;
+    Console.Write("Digite o tempo de rendimento: ");
+    string tryMeses = Console.ReadLine();
+    while (!double.TryParse(tryMeses, out meses))
+    {
+        Console.Write("This is not valid input. Please enter an integer value: ");
+        tryMeses = Console.ReadLine();
+    }
+    double result = ContaPoupanca.SimularPoupanca(valorInvestido, meses);
+    Console.WriteLine("Simulação realizada!");
+    Console.WriteLine($"O retorno da poupanca será de: {result}");
+    Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
+    Console.ReadLine();
+    MainMenu();
+}
+
     void VerSaldo(int id)
 {
     

@@ -8,12 +8,12 @@ namespace DEVinBank
 {
     public class ContaCorrente : Conta
     {
-        public decimal Limit = 0.1M;
-        public ContaCorrente(string nome, string cPF, string endereço, decimal rendaMensal, string agencia) : base(nome, cPF, endereço, rendaMensal, agencia)
+        public double Limit = 0.1;
+        public ContaCorrente(string nome, string cPF, string endereço, double rendaMensal, string agencia) : base(nome, cPF, endereço, rendaMensal, agencia)
         {
 
         }
-        public override void Saque(decimal value)
+        public override void Saque(double value)
         {
             if (Saldo + Limit*RendaMensal < value)
             {
