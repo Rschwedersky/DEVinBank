@@ -49,7 +49,7 @@
 
         public void AlterarDadosCadastrais() { }
 
-        public void Transferencia( double valor, Conta entrada) 
+        public virtual void Transferencia(double valor, Conta entrada) 
         { 
             this.Saque(valor);
             entrada.Deposito(valor);

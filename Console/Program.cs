@@ -15,9 +15,9 @@ bool showMenu = true;
             Console.Clear();
             Console.WriteLine("Choose an option:");
             Console.WriteLine("1) Abrir uma conta");
-            Console.WriteLine("2) Acessar Conta Corrente");
-            Console.WriteLine("3) Acessar Conta poupança");  
-            Console.WriteLine("4) Acessar Conta investimento");
+            Console.WriteLine("2) Acessar Menu Conta Corrente");
+            Console.WriteLine("3) Acessar Menu Conta poupança");  
+            Console.WriteLine("4) Acessar Menu Conta investimento");
             Console.WriteLine("5) Exit");
             Console.Write("\r\nSelect an option: ");
 
@@ -63,7 +63,7 @@ bool showMenu = true;
             AbrirContaCadastro("Conta poupanca");
             return true;
         case "3":
-            //AbrirContaIvestimentoMenu(); ;
+            AbrirContaCadastro("Conta investimento");
             return true;
         case "4":
             return false;
@@ -111,8 +111,8 @@ bool showMenu = true;
         switch (Console.ReadLine())
         {
             case "1":
-            switch (info)
-            {
+                switch (info)
+                {
                 case "Conta corrente":
                     ContaCorrente contaCorrente = new (nome, cPF, endereco, rendaMensal, "001 - Florianópolis");
                     listaContas.Add(contaCorrente);
@@ -127,15 +127,66 @@ bool showMenu = true;
                     Console.WriteLine($"Guarde o numero:{contaPoupanca.NumeroConta} para acessa-la posteriormente");
                     Console.ReadLine();
                     return true;
-            }
-            return true;
-        case "2":
-                ContaCorrente conta2 = new (nome, cPF, endereco, rendaMensal, "002 - São José");
-                listaContas.Add(conta2);
+                case "Conta investimento":
+                    ContaPoupanca contaInvestimento = new(nome, cPF, endereco, rendaMensal, "001 - Florianópolis");
+                    listaContas.Add(contaInvestimento);
+                    Console.WriteLine("Conta criada com sucesso!");
+                    Console.WriteLine($"Guarde o numero:{contaInvestimento.NumeroConta} para acessa-la posteriormente");
+                    Console.ReadLine();
+                    return true;
+                }
                 return true;
-            case "3":
-                ContaCorrente conta3 = new (nome, cPF, endereco, rendaMensal, "003 - Biguaçu");
-                listaContas.Add(conta3);
+            case "2":
+                switch (info)
+                {
+                case "Conta corrente":
+                    ContaCorrente contaCorrente = new(nome, cPF, endereco, rendaMensal, "002 - São José");
+                    listaContas.Add(contaCorrente);
+                    Console.WriteLine("Conta criada com sucesso!");
+                    Console.WriteLine($"Guarde o numero:{contaCorrente.NumeroConta} para acessa-la posteiormente");
+                    Console.ReadLine();
+                    return true;
+                case "Conta poupanca":
+                    ContaPoupanca contaPoupanca = new(nome, cPF, endereco, rendaMensal, "002 - São José");
+                    listaContas.Add(contaPoupanca);
+                    Console.WriteLine("Conta criada com sucesso!");
+                    Console.WriteLine($"Guarde o numero:{contaPoupanca.NumeroConta} para acessa-la posteriormente");
+                    Console.ReadLine();
+                    return true;
+                case "Conta investimento":
+                    ContaPoupanca contaInvestimento = new(nome, cPF, endereco, rendaMensal, "002 - São José");
+                    listaContas.Add(contaInvestimento);
+                    Console.WriteLine("Conta criada com sucesso!");
+                    Console.WriteLine($"Guarde o numero:{contaInvestimento.NumeroConta} para acessa-la posteriormente");
+                    Console.ReadLine();
+                    return true;
+                }
+                return true;
+           case "3":
+            switch (info)
+            {
+                case "Conta corrente":
+                    ContaCorrente contaCorrente = new(nome, cPF, endereco, rendaMensal, "003 - Biguaçu");
+                    listaContas.Add(contaCorrente);
+                    Console.WriteLine("Conta criada com sucesso!");
+                    Console.WriteLine($"Guarde o numero:{contaCorrente.NumeroConta} para acessa-la posteiormente");
+                    Console.ReadLine();
+                    return true;
+                case "Conta poupanca":
+                    ContaPoupanca contaPoupanca = new(nome, cPF, endereco, rendaMensal, "003 - Biguaçu");
+                    listaContas.Add(contaPoupanca);
+                    Console.WriteLine("Conta criada com sucesso!");
+                    Console.WriteLine($"Guarde o numero:{contaPoupanca.NumeroConta} para acessa-la posteriormente");
+                    Console.ReadLine();
+                    return true;
+                case "Conta investimento":
+                    ContaPoupanca contaInvestimento = new(nome, cPF, endereco, rendaMensal, "003 - Biguaçu");
+                    listaContas.Add(contaInvestimento);
+                    Console.WriteLine("Conta criada com sucesso!");
+                    Console.WriteLine($"Guarde o numero:{contaInvestimento.NumeroConta} para acessa-la posteriormente");
+                    Console.ReadLine();
+                    return true;
+            }
                 return true;
             case "4":
                 return false;
@@ -178,7 +229,7 @@ bool showMenu = true;
             Extrato(id);
             return true;
         case "10":
-            VerSimulacao(id);
+            VerSimulacao(id, tipo);
             return true;
         case "4":
             VerSaldo(id);
@@ -302,7 +353,7 @@ void Extrato(int id)
     }
 }
 
-void VerSimulacao(int id)
+void VerSimulacao(int id, string tipo)
 {
     double valorInvestido = 0;
     Console.Write("Digite o valor a ser Investido: ");
@@ -320,13 +371,20 @@ void VerSimulacao(int id)
         Console.Write("This is not valid input. Please enter an integer value: ");
         tryMeses = Console.ReadLine();
     }
+    if (tipo == "Conta poupanca") 
+    { 
     double result = ContaPoupanca.SimularPoupanca(valorInvestido, meses);
     Console.WriteLine("Simulação realizada!");
-    Console.WriteLine($"O retorno da poupanca será de: {result}");
+    Console.WriteLine($"O retorno da poupanca será de: {result.ToString("0.00")} reais");
     Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
     Console.ReadLine();
     MainMenu();
-}
+    }
+    if (tipo == "Conta investimento")
+    { 
+    
+    }
+    }
 
     void VerSaldo(int id)
 {
@@ -374,7 +432,7 @@ void Transferir(int id)
     Conta contaSaida = listaContas.Find(i => i.NumeroConta == id);
     Conta contaEntrada = listaContas.Find(i => i.NumeroConta == idTransferencia);
     double valorTransferencia = 0;
-    Console.Write("Digite o valor a ser retirado: ");
+    Console.Write("Digite o valor a ser transferido: ");
     string tryValorTransferencia = Console.ReadLine();
     while (!double.TryParse(tryValorTransferencia, out valorTransferencia))
     {
