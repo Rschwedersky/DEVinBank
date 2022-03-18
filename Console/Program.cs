@@ -33,7 +33,7 @@ bool showMenu = true;
                     AcessarContaMenu("Conta poupanca");
                     return true;
                 case "4":
-                    //AcessarContaInvestimentoMenu();
+                    AcessarContaMenu("Conta investimento");
                     return true;
                 case "5":
                     return false;
@@ -213,7 +213,7 @@ bool showMenu = true;
     Console.WriteLine("3) Extrato");
     Console.WriteLine("4) Saldo");
     Console.WriteLine("5) Transferir");
-    if (tipo == "Conta poupanca") { Console.WriteLine("10) Simular"); }
+    if ((tipo == "Conta poupanca") || (tipo == "Conta investimento")) { Console.WriteLine("10) Simular"); }
     Console.WriteLine("6) Voltar ao menu Inicial");
     Console.Write("\r\nSelect an option: ");
     
@@ -355,6 +355,19 @@ void Extrato(int id)
 
 void VerSimulacao(int id, string tipo)
 {
+    Console.Write("Bem vindo a simulação de investimento! \n");
+    if (tipo == "Conta investimento") {
+        
+        Console.Write("Temos 3 tipos de aplicação:\n ");
+        Console.Write("LCI 8% ano (minimo de 6 meses de retenção)\n");
+        Console.Write("LCA 9% ano (minimo de 12 meses de retenção)\n");
+        Console.Write("LCI 10% ano (minimo de 36 meses de retenção)\n");
+    }
+    if (tipo == "Conta poupança") { Console.Write("Bem vindo a simulação de poupança "); }
+   
+
+
+
     double valorInvestido = 0;
     Console.Write("Digite o valor a ser Investido: ");
     string tryValorInvestido = Console.ReadLine();
@@ -381,10 +394,48 @@ void VerSimulacao(int id, string tipo)
     MainMenu();
     }
     if (tipo == "Conta investimento")
-    { 
+    {
+      
+        Console.WriteLine("1) LCI 8% ano (minimo de 6 meses de retenção)");
+        Console.WriteLine("2) LCA 9% ano (minimo de 12 meses de retenção)");
+        Console.WriteLine("3) CDB 10% ano (minimo de 36 meses de retenção)");
+        Console.WriteLine("4) Voltar ao menu Inicial");
+        Console.Write("\r\nSelect an option: ");
+
+        switch (Console.ReadLine())
+        {
+            case "1":
+                double result = ContaInvestimento.SimularInvestimento(valorInvestido, meses, "LCI");
+                Console.WriteLine("Simulação realizada!");
+                Console.WriteLine($"O retorno da poupanca será de: {result.ToString("0.00")} reais");
+                Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
+                Console.ReadLine();
+                MainMenu();
+                break;
+            case "2":
+                double result2 = ContaInvestimento.SimularInvestimento(valorInvestido, meses, "LCI");
+                Console.WriteLine("Simulação realizada!");
+                Console.WriteLine($"O retorno da poupanca será de: {result2.ToString("0.00")} reais");
+                Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
+                Console.ReadLine();
+                MainMenu();
+                break;
+            case "3":
+                double result3 = ContaInvestimento.SimularInvestimento(valorInvestido, meses, "LCI");
+                Console.WriteLine("Simulação realizada!");
+                Console.WriteLine($"O retorno da poupanca será de: {result3.ToString("0.00")} reais");
+                Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
+                Console.ReadLine();
+                MainMenu();
+                break;
+            case "4":
+                break;
+            default:
+                break;
+        }
+    }
+}
     
-    }
-    }
 
     void VerSaldo(int id)
 {
