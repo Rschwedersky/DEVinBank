@@ -67,29 +67,29 @@ bool showMenu = true;
     {
     double rendaMensal = 0;
        
-        Console.Write("Type your name, and then press Enter: ");
+        Console.Write("Escreva seu nome e aperte Enter: ");
         string nome = Console.ReadLine();
         while (nome =="")
         {
-            Console.Write("This is not valid input. Please enter an string value: ");
+            Console.Write("Escreva seu nome novamente e aperte Enter: ");
             nome = Console.ReadLine();
         }
 
         string cPF = PedirCpf();
 
-        Console.Write("Type your endereco, and then press Enter: ");
+        Console.Write("Escreva seu endereço e aperte Enter: ");
         string endereco = Console.ReadLine();
         while (nome == "")
         {
-            Console.Write("This is not valid input. Please enter an string value: ");
+            Console.Write("Escreva seu endereço novamente e aperte Enter: ");
             endereco = Console.ReadLine();
         }
 
-        Console.Write("Type your renda mensal, and then press Enter: ");
+        Console.Write("Escreva sua renda mensal e aperte Enter: ");
         string tryRendaMensal = Console.ReadLine();
         while (!double.TryParse(tryRendaMensal, out rendaMensal))
         {
-            Console.Write("This is not valid input. Please enter an integer value: ");
+            Console.Write("Escreva sua renda mensal novamente e aperte Enter: ");
             tryRendaMensal = Console.ReadLine();
         }
 
@@ -214,7 +214,7 @@ bool showMenu = true;
     if (tipo == "ContaPoupanca") { Console.WriteLine("10) Simular"); }
     if (tipo == "ContaInvestimento") { Console.WriteLine("10) Simular e Investir"); }
     Console.WriteLine("6) Voltar ao menu Inicial");
-    Console.Write("\r\nSelect an option: ");
+    Console.Write("\r\nSelecione uma operação: ");
     
     switch (Console.ReadLine())
     {
@@ -245,7 +245,7 @@ bool showMenu = true;
 string PedirCpf()
 {
     string tryCpf = "";
-    Console.Write("Type your CPF, and then press Enter: ");
+    Console.Write("Escreva seu CPF e aperte Enter: ");
     tryCpf = Console.ReadLine();
     CPFCNPJ.IMain testaCpf = new CPFCNPJ.Main();
     while (testaCpf.IsValidCPFCNPJ(tryCpf) == false)
@@ -283,7 +283,7 @@ void Depositar(int id)
     string tryValorDeposito = Console.ReadLine();
     while (!double.TryParse(tryValorDeposito, out valorDeposito))
     {
-        Console.Write("This is not valid input. Please enter an integer value: ");
+        Console.Write("Digite o valor a ser depositado novamente: ");
         tryValorDeposito = Console.ReadLine();
     }
     foreach (var item in listaContas)
@@ -310,7 +310,7 @@ void Sacar(int id)
     string tryValorSaque = Console.ReadLine();
     while (!double.TryParse(tryValorSaque, out valorSaque))
     {
-        Console.Write("This is not valid input. Please enter an integer value: ");
+        Console.Write("Digite o valor a ser retirado novamente: ");
         tryValorSaque = Console.ReadLine();
     }
     foreach (var item in listaContas)
@@ -378,11 +378,11 @@ void VerSimulacao(int id, string tipo)
 
 
     double valorInvestido = 0;
-    Console.Write("Digite o valor a ser Investido: ");
+    Console.Write("Digite o valor a ser investido: ");
     string tryValorInvestido = Console.ReadLine();
     while (!double.TryParse(tryValorInvestido, out valorInvestido))
     {
-        Console.Write("This is not valid input. Please enter an integer value: ");
+        Console.Write("Digite o valor a ser investido novamente: ");
         tryValorInvestido = Console.ReadLine();
     }
     double meses = 0;
@@ -390,7 +390,7 @@ void VerSimulacao(int id, string tipo)
     string tryMeses = Console.ReadLine();
     while (!double.TryParse(tryMeses, out meses))
     {
-        Console.Write("This is not valid input. Please enter an integer value: ");
+        Console.Write("Digite o tempo de rendimento novamente: ");
         tryMeses = Console.ReadLine();
     }
     if (tipo == "ContaPoupanca") 
@@ -420,7 +420,7 @@ void VerSimulacao(int id, string tipo)
                 try { double result = ContaInvestimento.SimularInvestimento(valorInvestido, meses, "LCI");
                     Console.WriteLine("Simulação realizada!");
                     Console.WriteLine($"O retorno da poupanca será de: {result.ToString("0.00")} reais");
-                    Console.WriteLine("Quer fazer o investimento?");///////ajuwdwhjdakhwdjhwdjhadhjw!!!!!!!!
+                    Console.WriteLine("Quer fazer o investimento?");
                     Console.WriteLine("1) Sim, quero investir.");
                     Console.WriteLine("2) Voltar ao menu Inicial");
                     Console.Write("\r\nSelect an option: ");
@@ -471,10 +471,10 @@ void VerSimulacao(int id, string tipo)
                     double result = ContaInvestimento.SimularInvestimento(valorInvestido, meses, "LCA");
                     Console.WriteLine("Simulação realizada!");
                     Console.WriteLine($"O retorno da poupanca será de: {result.ToString("0.00")} reais");
-                    Console.WriteLine("Quer fazer o investimento?");///////ajuwdwhjdakhwdjhwdjhadhjw!!!!!!!!
+                    Console.WriteLine("Quer fazer o investimento?");
                     Console.WriteLine("1) Sim, quero investir.");
                     Console.WriteLine("2) Voltar ao menu Inicial");
-                    Console.Write("\r\nSelect an option: ");
+                    Console.Write("\r\nSelecione uma opção: ");
                 }
                 catch (Exception)
                 {
@@ -524,10 +524,10 @@ void VerSimulacao(int id, string tipo)
                     double result = ContaInvestimento.SimularInvestimento(valorInvestido, meses, "LCI");
                     Console.WriteLine("Simulação realizada!");
                     Console.WriteLine($"O retorno da poupanca será de: {result.ToString("0.00")} reais");
-                    Console.WriteLine("Quer fazer o investimento?");///////ajuwdwhjdakhwdjhwdjhadhjw!!!!!!!!
+                    Console.WriteLine("Quer fazer o investimento?");
                     Console.WriteLine("1) Sim, quero investir.");
                     Console.WriteLine("2) Voltar ao menu Inicial");
-                    Console.Write("\r\nSelect an option: ");
+                    Console.Write("\r\nSelecione uma opção: ");
                 }
                 catch (Exception)
                 {
