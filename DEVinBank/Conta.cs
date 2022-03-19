@@ -54,9 +54,11 @@
             this.Saque(valor);
             entrada.Deposito(valor);
         }
+        public virtual void DepositoInvestimento(double value, string tipoAplicacao)
+        { }
 
-       
- 
 
-    }
+
+
+        }
 }

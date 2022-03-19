@@ -15,9 +15,7 @@ bool showMenu = true;
             Console.Clear();
             Console.WriteLine("Choose an option:");
             Console.WriteLine("1) Abrir uma conta");
-            Console.WriteLine("2) Acessar Menu Conta Corrente");
-            Console.WriteLine("3) Acessar Menu Conta poupança");  
-            Console.WriteLine("4) Acessar Menu Conta investimento");
+            Console.WriteLine("2) Acessar Menu Contas");
             Console.WriteLine("5) Exit");
             Console.Write("\r\nSelect an option: ");
 
@@ -27,14 +25,8 @@ bool showMenu = true;
                      AbrirContaMenu();
                      return true;
                 case "2":
-                    AcessarContaMenu("Conta corrente");
-                    return true;
-                case "3":
-                    AcessarContaMenu("Conta poupanca");
-                    return true;
-                case "4":
-                    AcessarContaMenu("Conta investimento");
-                    return true;
+                    AcessarContaMenu();
+            return true;
                 case "5":
                     return false;
                 default:
@@ -77,7 +69,7 @@ bool showMenu = true;
        
         Console.Write("Type your name, and then press Enter: ");
         string nome = Console.ReadLine();
-        while (nome is null)
+        while (nome =="")
         {
             Console.Write("This is not valid input. Please enter an string value: ");
             nome = Console.ReadLine();
@@ -87,7 +79,7 @@ bool showMenu = true;
 
         Console.Write("Type your endereco, and then press Enter: ");
         string endereco = Console.ReadLine();
-        while (endereco is null)
+        while (nome == "")
         {
             Console.Write("This is not valid input. Please enter an string value: ");
             endereco = Console.ReadLine();
@@ -128,7 +120,7 @@ bool showMenu = true;
                     Console.ReadLine();
                     return true;
                 case "Conta investimento":
-                    ContaPoupanca contaInvestimento = new(nome, cPF, endereco, rendaMensal, "001 - Florianópolis");
+                    ContaInvestimento contaInvestimento = new(nome, cPF, endereco, rendaMensal, "001 - Florianópolis");
                     listaContas.Add(contaInvestimento);
                     Console.WriteLine("Conta criada com sucesso!");
                     Console.WriteLine($"Guarde o numero:{contaInvestimento.NumeroConta} para acessa-la posteriormente");
@@ -154,7 +146,7 @@ bool showMenu = true;
                     Console.ReadLine();
                     return true;
                 case "Conta investimento":
-                    ContaPoupanca contaInvestimento = new(nome, cPF, endereco, rendaMensal, "002 - São José");
+                    ContaInvestimento contaInvestimento = new(nome, cPF, endereco, rendaMensal, "002 - São José");
                     listaContas.Add(contaInvestimento);
                     Console.WriteLine("Conta criada com sucesso!");
                     Console.WriteLine($"Guarde o numero:{contaInvestimento.NumeroConta} para acessa-la posteriormente");
@@ -180,7 +172,7 @@ bool showMenu = true;
                     Console.ReadLine();
                     return true;
                 case "Conta investimento":
-                    ContaPoupanca contaInvestimento = new(nome, cPF, endereco, rendaMensal, "003 - Biguaçu");
+                    ContaInvestimento contaInvestimento = new(nome, cPF, endereco, rendaMensal, "003 - Biguaçu");
                     listaContas.Add(contaInvestimento);
                     Console.WriteLine("Conta criada com sucesso!");
                     Console.WriteLine($"Guarde o numero:{contaInvestimento.NumeroConta} para acessa-la posteriormente");
@@ -196,7 +188,7 @@ bool showMenu = true;
     }
 
 
- bool AcessarContaMenu(string tipo)
+ bool AcessarContaMenu()
 {
     int id = PedirId();
     if (id == 0)
@@ -206,14 +198,21 @@ bool showMenu = true;
         MainMenu();
     }
 
+   Conta contaTipo = listaContas.Find(i => i.NumeroConta == id);
+   string tipo = contaTipo.GetType().Name;
+    
+  
+   
+
     Console.Clear();
     Console.WriteLine("Choose an option:");
-    Console.WriteLine("1) Depositar");
+    if ((tipo == "ContaPoupanca") || (tipo == "ContaCorrente")) { Console.WriteLine("1) Depositar"); }
     Console.WriteLine("2) Sacar");
     Console.WriteLine("3) Extrato");
     Console.WriteLine("4) Saldo");
     Console.WriteLine("5) Transferir");
-    if ((tipo == "Conta poupanca") || (tipo == "Conta investimento")) { Console.WriteLine("10) Simular"); }
+    if (tipo == "ContaPoupanca") { Console.WriteLine("10) Simular"); }
+    if (tipo == "ContaInvestimento") { Console.WriteLine("10) Simular e Investir"); }
     Console.WriteLine("6) Voltar ao menu Inicial");
     Console.Write("\r\nSelect an option: ");
     
@@ -274,7 +273,7 @@ int PedirId()
             return id;
         }
     }
-    return id;
+    return 0;
 }
 
 void Depositar(int id)
@@ -296,7 +295,7 @@ void Depositar(int id)
             listaExtrato.Add(extrato);
         }
         Console.WriteLine("Deposito realizado!");
-        Console.WriteLine($"O valor de {item.Saldo} foi depositado");
+        Console.WriteLine($"O valor de {valorDeposito} foi depositado");
         Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
         Console.ReadLine();
         MainMenu();
@@ -345,25 +344,35 @@ void Extrato(int id)
     {
         if (item.ContaOrigem.NumeroConta == id)
         {
-            Console.WriteLine($"A conta:  {item.ContaOrigem.NumeroConta} fez a movimentacao:  {item.Tipo}  de valor:  {item.Valor} no dia:  {item.Date}");
+            Console.WriteLine("#####################");
+            Console.WriteLine($"A conta:  {item.ContaOrigem.NumeroConta}");
+            Console.WriteLine($"fez a movimentacao:  {item.Tipo}");
+            if (item.ContaDestino != null)
+            {
+                Console.WriteLine($"Para a conta:  {item.ContaOrigem.NumeroConta}");
+                    }
+            Console.WriteLine($"de valor:  {item.Valor}");
+            Console.WriteLine($"no dia:  {item.Date}");
+            Console.WriteLine("#####################");
         }
-        Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
-        Console.ReadLine();
-        MainMenu();
+        
     }
+    Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
+    Console.ReadLine();
+    MainMenu();
 }
 
 void VerSimulacao(int id, string tipo)
 {
     Console.Write("Bem vindo a simulação de investimento! \n");
-    if (tipo == "Conta investimento") {
+    if (tipo == "ContaInvestimento") {
         
         Console.Write("Temos 3 tipos de aplicação:\n ");
         Console.Write("LCI 8% ano (minimo de 6 meses de retenção)\n");
         Console.Write("LCA 9% ano (minimo de 12 meses de retenção)\n");
         Console.Write("LCI 10% ano (minimo de 36 meses de retenção)\n");
     }
-    if (tipo == "Conta poupança") { Console.Write("Bem vindo a simulação de poupança "); }
+    if (tipo == "ContaPoupança") { Console.Write("Bem vindo a simulação de poupança "); }
    
 
 
@@ -384,7 +393,7 @@ void VerSimulacao(int id, string tipo)
         Console.Write("This is not valid input. Please enter an integer value: ");
         tryMeses = Console.ReadLine();
     }
-    if (tipo == "Conta poupanca") 
+    if (tipo == "ContaPoupanca") 
     { 
     double result = ContaPoupanca.SimularPoupanca(valorInvestido, meses);
     Console.WriteLine("Simulação realizada!");
@@ -393,9 +402,10 @@ void VerSimulacao(int id, string tipo)
     Console.ReadLine();
     MainMenu();
     }
-    if (tipo == "Conta investimento")
+    if (tipo == "ContaInvestimento")
     {
-      
+        Console.Clear();
+        Console.Write("Escolha o tipo de Aplicação:\n ");
         Console.WriteLine("1) LCI 8% ano (minimo de 6 meses de retenção)");
         Console.WriteLine("2) LCA 9% ano (minimo de 12 meses de retenção)");
         Console.WriteLine("3) CDB 10% ano (minimo de 36 meses de retenção)");
@@ -405,28 +415,159 @@ void VerSimulacao(int id, string tipo)
         switch (Console.ReadLine())
         {
             case "1":
-                double result = ContaInvestimento.SimularInvestimento(valorInvestido, meses, "LCI");
-                Console.WriteLine("Simulação realizada!");
-                Console.WriteLine($"O retorno da poupanca será de: {result.ToString("0.00")} reais");
-                Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
-                Console.ReadLine();
-                MainMenu();
+                string tipoAplicacao = "";
+                Conta contaInvestimento = listaContas.Find(i => i.NumeroConta == id);
+                try { double result = ContaInvestimento.SimularInvestimento(valorInvestido, meses, "LCI");
+                    Console.WriteLine("Simulação realizada!");
+                    Console.WriteLine($"O retorno da poupanca será de: {result.ToString("0.00")} reais");
+                    Console.WriteLine("Quer fazer o investimento?");///////ajuwdwhjdakhwdjhwdjhadhjw!!!!!!!!
+                    Console.WriteLine("1) Sim, quero investir.");
+                    Console.WriteLine("2) Voltar ao menu Inicial");
+                    Console.Write("\r\nSelect an option: ");
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Algo deu errado");
+                    Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
+                    Console.ReadLine();
+                    MainMenu();
+              
+                }
+               
+                switch (Console.ReadLine())
+                {
+                    case "1":
+                        tipoAplicacao = "LCI";
+                        break;
+                    case "2":
+                        MainMenu();
+                        break;
+                    default:
+                        break;
+                }
+                try { contaInvestimento.DepositoInvestimento(valorInvestido, tipoAplicacao);
+                    Extrato extrato = new Extrato(valorInvestido, contaInvestimento, $"Investimento{tipoAplicacao}");
+                    listaExtrato.Add(extrato);
+                    Console.WriteLine("Deposito realizado!");
+                    Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
+                    Console.ReadLine();
+                    MainMenu();
+
+
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Algo deu errado");
+                    Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
+                    Console.ReadLine();
+                    MainMenu();
+                }
                 break;
-            case "2":
-                double result2 = ContaInvestimento.SimularInvestimento(valorInvestido, meses, "LCI");
-                Console.WriteLine("Simulação realizada!");
-                Console.WriteLine($"O retorno da poupanca será de: {result2.ToString("0.00")} reais");
-                Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
-                Console.ReadLine();
-                MainMenu();
-                break;
+           case "2":
+                string tipoAplicacao2 = "";
+                Conta contaInvestimento2= listaContas.Find(i => i.NumeroConta == id);
+                try
+                {
+                    double result = ContaInvestimento.SimularInvestimento(valorInvestido, meses, "LCA");
+                    Console.WriteLine("Simulação realizada!");
+                    Console.WriteLine($"O retorno da poupanca será de: {result.ToString("0.00")} reais");
+                    Console.WriteLine("Quer fazer o investimento?");///////ajuwdwhjdakhwdjhwdjhadhjw!!!!!!!!
+                    Console.WriteLine("1) Sim, quero investir.");
+                    Console.WriteLine("2) Voltar ao menu Inicial");
+                    Console.Write("\r\nSelect an option: ");
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Algo deu errado");
+                    Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
+                    Console.ReadLine();
+                    MainMenu();
+
+                }
+
+                switch (Console.ReadLine())
+                {
+                    case "1":
+                        tipoAplicacao2 = "LCA";
+                        break;
+                    case "2":
+                        MainMenu();
+                        break;
+                    default:
+                        break;
+                }
+                try
+                {
+                    contaInvestimento2.DepositoInvestimento(valorInvestido, tipoAplicacao2);
+                    Extrato extrato = new Extrato(valorInvestido, contaInvestimento2, $"Investimento{tipoAplicacao2}");
+                    listaExtrato.Add(extrato);
+                    Console.WriteLine("Deposito realizado!");
+                    Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
+                    Console.ReadLine();
+                    MainMenu();
+
+
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Algo deu errado");
+                    Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
+                    Console.ReadLine();
+                    MainMenu();
+                }
+                break; ;
             case "3":
-                double result3 = ContaInvestimento.SimularInvestimento(valorInvestido, meses, "LCI");
-                Console.WriteLine("Simulação realizada!");
-                Console.WriteLine($"O retorno da poupanca será de: {result3.ToString("0.00")} reais");
-                Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
-                Console.ReadLine();
-                MainMenu();
+                string tipoAplicacao3 = "";
+                Conta contaInvestimento3 = listaContas.Find(i => i.NumeroConta == id);
+                try
+                {
+                    double result = ContaInvestimento.SimularInvestimento(valorInvestido, meses, "LCI");
+                    Console.WriteLine("Simulação realizada!");
+                    Console.WriteLine($"O retorno da poupanca será de: {result.ToString("0.00")} reais");
+                    Console.WriteLine("Quer fazer o investimento?");///////ajuwdwhjdakhwdjhwdjhadhjw!!!!!!!!
+                    Console.WriteLine("1) Sim, quero investir.");
+                    Console.WriteLine("2) Voltar ao menu Inicial");
+                    Console.Write("\r\nSelect an option: ");
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Algo deu errado");
+                    Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
+                    Console.ReadLine();
+                    MainMenu();
+
+                }
+
+                switch (Console.ReadLine())
+                {
+                    case "1":
+                        tipoAplicacao3 = "CDB";
+                        break;
+                    case "2":
+                        MainMenu();
+                        break;
+                    default:
+                        break;
+                }
+                try
+                {
+                    contaInvestimento3.DepositoInvestimento(valorInvestido, tipoAplicacao3);
+                    Extrato extrato = new Extrato(valorInvestido, contaInvestimento3, $"Investimento{tipoAplicacao3}");
+                    listaExtrato.Add(extrato);
+                    Console.WriteLine("Deposito realizado!");
+                    Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
+                    Console.ReadLine();
+                    MainMenu();
+
+
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Algo deu errado");
+                    Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
+                    Console.ReadLine();
+                    MainMenu();
+                }
                 break;
             case "4":
                 break;
@@ -505,7 +646,7 @@ void Transferir(int id)
         MainMenu();
 
     }
-    Console.WriteLine("Transerencia realizada!");
+    Console.WriteLine("Transferencia realizada!");
     Console.WriteLine($"O saldo atual é: {contaSaida.Saldo}");
     Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
     Console.ReadLine();

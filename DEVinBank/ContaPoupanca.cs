@@ -21,7 +21,7 @@ namespace DEVinBank
         {
             DateTime timeNow = DateTime.Now;
             var dateSpan = DateTimeSpan.CompareDates(DataRendimento, timeNow);
-            if (dateSpan.Months > 0) Saldo = (Saldo * (Math.Pow((1.0 + RendimentoAoMes), dateSpan.Months)));
+            if (dateSpan.Months > 0) { Saldo = (Saldo * (Math.Pow((1.0 + RendimentoAoMes), dateSpan.Months))); }
             base.Deposito(value);
             DataRendimento = DateTime.Now;
         }
@@ -30,21 +30,21 @@ namespace DEVinBank
         {
             DateTime timeNow = DateTime.Now;
             var dateSpan = DateTimeSpan.CompareDates(DataRendimento, timeNow);
-            if (dateSpan.Months > 0) Saldo = (Saldo * (Math.Pow((1.0 + RendimentoAoMes), dateSpan.Months)));
+            if (dateSpan.Months > 0) { Saldo = (Saldo * (Math.Pow((1.0 + RendimentoAoMes), dateSpan.Months))); }
             return Saldo;
         }
         public override void Saque(double value)
         {
             DateTime timeNow = DateTime.Now;
             var dateSpan = DateTimeSpan.CompareDates(DataRendimento, timeNow);
-            if (dateSpan.Months > 0) Saldo = (Saldo * (Math.Pow((1.0 + RendimentoAoMes), dateSpan.Months)));
+            if (dateSpan.Months > 0) { Saldo = (Saldo * (Math.Pow((1.0 + RendimentoAoMes), dateSpan.Months))); }
             base.Saque(value);
         }
         public override void Transferencia(double valor, Conta entrada)
         {
             DateTime timeNow = DateTime.Now;
             var dateSpan = DateTimeSpan.CompareDates(DataRendimento, timeNow);
-            if (dateSpan.Months > 0) Saldo = (Saldo * (Math.Pow((1.0 + RendimentoAoMes), dateSpan.Months)));
+            if (dateSpan.Months > 0) { Saldo = (Saldo * (Math.Pow((1.0 + RendimentoAoMes), dateSpan.Months))); }
             base.Transferencia(valor, entrada);
         }
     }
