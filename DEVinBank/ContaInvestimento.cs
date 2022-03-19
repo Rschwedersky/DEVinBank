@@ -13,7 +13,11 @@ namespace DEVinBank
         public DateTime DataCDB { get; private set; }
 
         public ContaInvestimento(string nome, string cPF, string endereço, double rendaMensal, string agencia) : base(nome, cPF, endereço, rendaMensal, agencia)
-        { }
+        {
+            DataLCI= DateTime.Now;
+            DataLCA = DateTime.Now;
+            DataCDB = DateTime.Now;
+        }
 
         public static double SimularInvestimento(double valorInvestido, double meses, string tipoAplicacao)
         {

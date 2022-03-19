@@ -613,7 +613,7 @@ void Transferir(int id)
                 return idTransferencia;
             }
         }
-        return idTransferencia;
+        return 0;
     }
     if (idTransferencia == 0)
     {
