@@ -299,7 +299,7 @@ void Depositar(int id)
         if (item.NumeroConta == id)
         {
             item.Deposito(valorDeposito);
-            Extrato extrato = new Extrato(valorDeposito, item, "Deposito");
+            Extrato extrato = new (valorDeposito, item, "Deposito");
             item.Extrato(extrato);
             listaExtrato.Add(extrato);
         }
@@ -327,7 +327,7 @@ void Sacar(int id)
         if (item.NumeroConta == id)
         {
             try { item.Saque(valorSaque);
-                    Extrato extrato = new Extrato(valorSaque, item, "Saque");
+                    Extrato extrato = new(valorSaque, item, "Saque");
                     item.Extrato(extrato);
                     listaExtrato.Add(extrato);
             }
@@ -460,7 +460,7 @@ void VerSimulacao(int id, string tipo)
                         break;
                 }
                 try { contaInvestimento.DepositoInvestimento(valorInvestido, tipoAplicacao);
-                    Extrato extrato = new Extrato(valorInvestido, contaInvestimento, $"Investimento{tipoAplicacao}");
+                    Extrato extrato = new (valorInvestido, contaInvestimento, $"Investimento{tipoAplicacao}");
                     listaExtrato.Add(extrato);
                     contaInvestimento.Extrato(extrato);
                     Console.WriteLine("Deposito realizado!");
@@ -515,7 +515,7 @@ void VerSimulacao(int id, string tipo)
                 try
                 {
                     contaInvestimento2.DepositoInvestimento(valorInvestido, tipoAplicacao2);
-                    Extrato extrato = new Extrato(valorInvestido, contaInvestimento2, $"Investimento{tipoAplicacao2}");
+                    Extrato extrato = new (valorInvestido, contaInvestimento2, $"Investimento{tipoAplicacao2}");
                     listaExtrato.Add(extrato);
                     contaInvestimento2.Extrato(extrato);
                     Console.WriteLine("Deposito realizado!");
@@ -569,7 +569,7 @@ void VerSimulacao(int id, string tipo)
                 try
                 {
                     contaInvestimento3.DepositoInvestimento(valorInvestido, tipoAplicacao3);
-                    Extrato extrato = new Extrato(valorInvestido, contaInvestimento3, $"Investimento{tipoAplicacao3}");
+                    Extrato extrato = new (valorInvestido, contaInvestimento3, $"Investimento{tipoAplicacao3}");
                     contaInvestimento3.Extrato(extrato);
                     listaExtrato.Add(extrato);
                     Console.WriteLine("Deposito realizado!");
@@ -653,7 +653,7 @@ void Transferir(int id)
     try
     {
         contaSaida.Transferencia(valorTransferencia, contaEntrada);
-        Extrato extrato = new Extrato(valorTransferencia, contaSaida, contaEntrada, "Transferência");
+        Extrato extrato = new (valorTransferencia, contaSaida, contaEntrada, "Transferência");
         listaExtrato.Add(extrato);
         contaSaida.Extrato(extrato);
     }
@@ -753,10 +753,10 @@ bool AcessarRelatoriosMenu()
     {
         case "1":
             if(listaContas.Count == 0) 
-            { Console.WriteLine("DevinBank ainda não possui contas.");
-              Console.WriteLine("Aperte qualquer tecla para voltar ao menu ´relatorios");
-              Console.ReadLine();
-              AcessarRelatoriosMenu();
+            {   Console.WriteLine("DevinBank ainda não possui contas.");
+                Console.WriteLine("Aperte qualquer tecla para voltar ao menu principal");
+                Console.ReadLine();
+                MainMenu();
             }
             Console.WriteLine("Abaixo a lista com todas as contas do DevinBank: ");
             foreach (var item in listaContas)
@@ -769,9 +769,9 @@ bool AcessarRelatoriosMenu()
                 Console.WriteLine($"Com saldo:  {item.Saldo}");
                 Console.WriteLine("#####################");
             }
-            Console.WriteLine("Aperte qualquer tecla para voltar ao menu ´relatorios");
+            Console.WriteLine("Aperte qualquer tecla para voltar ao menu principal");
             Console.ReadLine();
-            AcessarRelatoriosMenu();
+            MainMenu();
             return true;
         case "2":
             if (listaContas.Count == 0)

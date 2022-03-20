@@ -10,7 +10,7 @@ namespace DEVinBank
     {
         public DateTime DataRendimento = DateTime.Now;
 
-        private static double RendimentoAoMes = 0.00617;
+        private readonly static double RendimentoAoMes = 0.00617;
         public ContaPoupanca(string nome, string cPF, string endereço, double rendaMensal, string agencia) : base(nome, cPF, endereço, rendaMensal, agencia)
         { }
         public static double SimularPoupanca(double valorInvestido, double meses)
