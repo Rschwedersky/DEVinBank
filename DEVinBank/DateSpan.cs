@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace DEVinBank
 {
+    //Solução proposta por https://stackoverflow.com/users/189950/kirk-woll
     public struct DateTimeSpan
     {
         public int Years { get; }
