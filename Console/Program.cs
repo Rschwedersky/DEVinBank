@@ -340,7 +340,7 @@ void Sacar(int id)
                 break;
             }
             Console.WriteLine("Saque realizado!");
-            Console.WriteLine($"O saldo atual é: {item.Saldo}");
+            Console.WriteLine($"O saldo atual é: {item.GetSaldo()}");
             Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
             Console.ReadLine();
             MainMenu();
@@ -602,7 +602,7 @@ void VerSimulacao(int id, string tipo)
     {
         if (item.NumeroConta == id)
         {
-            Console.WriteLine($"O saldo atual é: {item.Saldo}");
+            Console.WriteLine($"O saldo atual é: {item.GetSaldo()}");
             Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
             Console.ReadLine();
             MainMenu();
@@ -666,7 +666,7 @@ void Transferir(int id)
 
     }
     Console.WriteLine("Transferencia realizada!");
-    Console.WriteLine($"O saldo atual é: {contaSaida.Saldo}");
+    Console.WriteLine($"O saldo atual é: {contaSaida.GetSaldo()}");
     Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
     Console.ReadLine();
     MainMenu();
@@ -766,7 +766,7 @@ bool AcessarRelatoriosMenu()
                 Console.WriteLine($"Conta:  {item.NumeroConta}");
                 Console.WriteLine($"Tipo de conta:  {item.GetType().Name}");
                 Console.WriteLine($"Atrelada ao CPF:  {item.CPF}");
-                Console.WriteLine($"Com saldo:  {item.Saldo}");
+                Console.WriteLine($"Com saldo:  {item.GetSaldo()}");
                 Console.WriteLine("#####################");
             }
             Console.WriteLine("Aperte qualquer tecla para voltar ao menu principal");
@@ -783,11 +783,11 @@ bool AcessarRelatoriosMenu()
             }
             foreach (var item in listaContas)
             {
-                if (Math.Sign(item.Saldo) == Math.Sign(-1))
+                if (Math.Sign(item.GetSaldo()) == Math.Sign(-1))
                 {
                     Console.WriteLine("#####################");
                     Console.WriteLine($"A conta:  {item.NumeroConta}");
-                    Console.WriteLine($"Está negativada com o saldo: {item.Saldo}");
+                    Console.WriteLine($"Está negativada com o saldo: {item.GetSaldo()}");
                     Console.WriteLine("#####################");
                 }
             }
@@ -806,7 +806,7 @@ bool AcessarRelatoriosMenu()
             }
             foreach (var item in listaContas)
             { 
-                capitalTotal +=item.Saldo;
+                capitalTotal +=item.GetSaldo();
             
             }
             Console.WriteLine("#####################");

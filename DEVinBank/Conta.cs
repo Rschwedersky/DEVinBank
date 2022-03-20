@@ -10,7 +10,7 @@
         
         private static int Contador = 1;
         public string Agencia { get; private set; }
-        public double Saldo { get; private protected set; }
+        private protected double Saldo {  get;  set; }
 
         public List<Extrato>? ListaExtrato = new(); 
 
