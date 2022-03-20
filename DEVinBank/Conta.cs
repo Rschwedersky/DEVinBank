@@ -11,8 +11,8 @@
         private static int Contador = 1;
         public string Agencia { get; private set; }
         public double Saldo { get; private protected set; }
-        
-        public List<Extrato>? ListaExtrato { get; private set; }
+
+        public List<Extrato>? ListaExtrato = new(); 
 
         public Conta(string nome, string cPF, string endereço, double rendaMensal, string agencia)
         {

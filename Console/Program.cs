@@ -16,6 +16,7 @@ bool showMenu = true;
             Console.WriteLine("Choose an option:");
             Console.WriteLine("1) Abrir uma conta");
             Console.WriteLine("2) Acessar Minhas Contas");
+            Console.WriteLine("3) Relatórios");
             Console.WriteLine("4) Sair");
             Console.Write("\r\nSelecione uma opção: ");
 
@@ -336,13 +337,14 @@ void Sacar(int id)
                 Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
                 Console.ReadLine();
                 MainMenu();
-
+                break;
             }
             Console.WriteLine("Saque realizado!");
             Console.WriteLine($"O saldo atual é: {item.Saldo}");
             Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
             Console.ReadLine();
             MainMenu();
+            break;
         }
     }
 }
@@ -356,15 +358,18 @@ void Extrato(int id)
             Console.WriteLine("#####################");
             Console.WriteLine($"A conta:  {item.ContaOrigem.NumeroConta}");
             Console.WriteLine($"fez a movimentacao:  {item.Tipo}");
-            if (item.ContaDestino != null)
-            {
-                Console.WriteLine($"Para a conta:  {item.ContaOrigem.NumeroConta}");
-                    }
+            if (item.ContaDestino != null){Console.WriteLine($"Para a conta:  {item.ContaOrigem.NumeroConta}");}
             Console.WriteLine($"de valor:  {item.Valor}");
             Console.WriteLine($"no dia:  {item.Date}");
             Console.WriteLine("#####################");
         }
-        
+        else
+        {
+            Console.WriteLine("DevinBank ainda não possui transações nessa Conta.");
+            Console.WriteLine("Aperte qualquer tecla para voltar ao menu principal");
+            Console.ReadLine();
+            MainMenu();
+        }
     }
     Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
     Console.ReadLine();
@@ -741,8 +746,108 @@ bool AcessarRelatoriosMenu()
     Console.WriteLine("2) Contas Negativadas");
     Console.WriteLine("3) Capital total DevinBank ");
     Console.WriteLine("4) Transaçoes por cliente");
+    Console.WriteLine("5) Voltar ao menu principal");
     Console.Write("\r\nSelect an option: ");
-    //switch (Console.ReadLine())
-    // {
-    return false;
+    switch (Console.ReadLine())
+    {
+        case "1":
+            if(listaContas.Count == 0) 
+            { Console.WriteLine("DevinBank ainda não possui contas.");
+              Console.WriteLine("Aperte qualquer tecla para voltar ao menu ´relatorios");
+              Console.ReadLine();
+              AcessarRelatoriosMenu();
+            }
+            Console.WriteLine("Abaixo a lista com todas as contas do DevinBank: ");
+            foreach (var item in listaContas)
+            {
+                Console.WriteLine("#####################");
+                Console.WriteLine($"Conta:  {item.NumeroConta}");
+                Console.WriteLine($"Atrelada ao CPF:  {item.CPF}");
+                Console.WriteLine($"Com saldo:  {item.Saldo}");
+                Console.WriteLine("#####################");
+            }
+            Console.WriteLine("Aperte qualquer tecla para voltar ao menu ´relatorios");
+            Console.ReadLine();
+            AcessarRelatoriosMenu();
+            return true;
+        case "2":
+            if (listaContas.Count == 0)
+            {
+                Console.WriteLine("DevinBank ainda não possui contas.");
+                Console.WriteLine("Aperte qualquer tecla para voltar ao menu principal");
+                Console.ReadLine();
+                MainMenu();
+            }
+            foreach (var item in listaContas)
+            {
+                if (Math.Sign(item.Saldo) == Math.Sign(-1))
+                {
+                    Console.WriteLine("#####################");
+                    Console.WriteLine($"A conta:  {item.NumeroConta}");
+                    Console.WriteLine($"Está negativada com o saldo: {item.Saldo}");
+                    Console.WriteLine("#####################");
+                }
+            }
+            Console.WriteLine("Aperte qualquer tecla para voltar ao menu principal");
+            Console.ReadLine();
+            MainMenu();
+            return true;
+        case "3":
+            double capitalTotal = 0;
+            if (listaContas.Count == 0)
+            {
+                Console.WriteLine("DevinBank ainda não possui contas.");
+                Console.WriteLine("Aperte qualquer tecla para voltar ao menu principal");
+                Console.ReadLine();
+                MainMenu();
+            }
+            foreach (var item in listaContas)
+            { 
+                capitalTotal +=item.Saldo;
+            
+            }
+            Console.WriteLine("#####################");
+            Console.WriteLine($"Capital total do DevinBank:  {capitalTotal}");
+            Console.WriteLine("Aperte qualquer tecla para voltar ao menu principal");
+            Console.ReadLine();
+            MainMenu();
+            return true;
+        case "4":
+            string cPF = PedirCpf();
+
+            if (listaExtrato.Count == 0)
+            {
+                Console.WriteLine("DevinBank ainda não possui transações.");
+                Console.WriteLine("Aperte qualquer tecla para voltar ao menu principal");
+                Console.ReadLine();
+                MainMenu();
+            }
+            foreach (var item in listaExtrato)
+            {
+                if (item.ContaOrigem.CPF == cPF)
+                {
+                    Console.WriteLine("#####################");
+                    Console.WriteLine($"A conta:  {item.ContaOrigem.NumeroConta}");
+                    Console.WriteLine($"fez a movimentacao:  {item.Tipo}");
+                    if (item.ContaDestino != null) { Console.WriteLine($"Para a conta:  {item.ContaOrigem.NumeroConta}"); }
+                    Console.WriteLine($"de valor:  {item.Valor}");
+                    Console.WriteLine($"no dia:  {item.Date}");
+                    Console.WriteLine("#####################");
+                }
+                else {
+                    Console.WriteLine("DevinBank ainda não possui transações nesse CPF.");
+                    Console.WriteLine("Aperte qualquer tecla para voltar ao menu principal");
+                    Console.ReadLine();
+                    MainMenu();
+                }
+            }
+            Console.WriteLine("Aperte qualquer tecla para voltar ao menu principal");
+            Console.ReadLine();
+            MainMenu();
+            return true;
+        case "5":
+            return false;
+        default:
+            return true;
+    }
 }
