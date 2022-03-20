@@ -15,9 +15,9 @@ bool showMenu = true;
             Console.Clear();
             Console.WriteLine("Choose an option:");
             Console.WriteLine("1) Abrir uma conta");
-            Console.WriteLine("2) Acessar Menu Contas");
-            Console.WriteLine("5) Exit");
-            Console.Write("\r\nSelect an option: ");
+            Console.WriteLine("2) Acessar Minhas Contas");
+            Console.WriteLine("4) Sair");
+            Console.Write("\r\nSelecione uma opção: ");
 
             switch (Console.ReadLine())
             {
@@ -25,9 +25,12 @@ bool showMenu = true;
                      AbrirContaMenu();
                      return true;
                 case "2":
-                    AcessarContaMenu();
-            return true;
-                case "5":
+                     AcessarContaMenu();
+                     return true;
+                case "3":
+                     AcessarRelatoriosMenu();
+                     return true;
+                case "4":
                     return false;
                 default:
                     return true;
@@ -211,9 +214,10 @@ bool showMenu = true;
     Console.WriteLine("3) Extrato");
     Console.WriteLine("4) Saldo");
     Console.WriteLine("5) Transferir");
+    Console.WriteLine("6) Atualizar cadastro");
     if (tipo == "ContaPoupanca") { Console.WriteLine("10) Simular"); }
     if (tipo == "ContaInvestimento") { Console.WriteLine("10) Simular e Investir"); }
-    Console.WriteLine("6) Voltar ao menu Inicial");
+    Console.WriteLine("7) Voltar ao menu Inicial");
     Console.Write("\r\nSelecione uma operação: ");
     
     switch (Console.ReadLine())
@@ -237,6 +241,9 @@ bool showMenu = true;
            Transferir(id);
             return true;
         case "6":
+            AtualizarCadastro(id);
+            return true;
+        case "7":
             return false;
         default:
             return true;
@@ -292,6 +299,7 @@ void Depositar(int id)
         {
             item.Deposito(valorDeposito);
             Extrato extrato = new Extrato(valorDeposito, item, "Deposito");
+            item.Extrato(extrato);
             listaExtrato.Add(extrato);
         }
         Console.WriteLine("Deposito realizado!");
@@ -319,6 +327,7 @@ void Sacar(int id)
         {
             try { item.Saque(valorSaque);
                     Extrato extrato = new Extrato(valorSaque, item, "Saque");
+                    item.Extrato(extrato);
                     listaExtrato.Add(extrato);
             }
             catch (Exception)
@@ -448,6 +457,7 @@ void VerSimulacao(int id, string tipo)
                 try { contaInvestimento.DepositoInvestimento(valorInvestido, tipoAplicacao);
                     Extrato extrato = new Extrato(valorInvestido, contaInvestimento, $"Investimento{tipoAplicacao}");
                     listaExtrato.Add(extrato);
+                    contaInvestimento.Extrato(extrato);
                     Console.WriteLine("Deposito realizado!");
                     Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
                     Console.ReadLine();
@@ -501,6 +511,7 @@ void VerSimulacao(int id, string tipo)
                     contaInvestimento2.DepositoInvestimento(valorInvestido, tipoAplicacao2);
                     Extrato extrato = new Extrato(valorInvestido, contaInvestimento2, $"Investimento{tipoAplicacao2}");
                     listaExtrato.Add(extrato);
+                    contaInvestimento2.Extrato(extrato);
                     Console.WriteLine("Deposito realizado!");
                     Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
                     Console.ReadLine();
@@ -553,6 +564,7 @@ void VerSimulacao(int id, string tipo)
                 {
                     contaInvestimento3.DepositoInvestimento(valorInvestido, tipoAplicacao3);
                     Extrato extrato = new Extrato(valorInvestido, contaInvestimento3, $"Investimento{tipoAplicacao3}");
+                    contaInvestimento3.Extrato(extrato);
                     listaExtrato.Add(extrato);
                     Console.WriteLine("Deposito realizado!");
                     Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
@@ -637,6 +649,7 @@ void Transferir(int id)
         contaSaida.Transferencia(valorTransferencia, contaEntrada);
         Extrato extrato = new Extrato(valorTransferencia, contaSaida, contaEntrada, "Transferência");
         listaExtrato.Add(extrato);
+        contaSaida.Extrato(extrato);
     }
     catch (Exception)
     {
@@ -655,6 +668,81 @@ void Transferir(int id)
 
 
 }
+void AtualizarCadastro(int id) 
+{
+    Conta contaMudanca = listaContas.Find(i => i.NumeroConta == id);
+    double rendaMensal = 0;
+
+    Console.Write("Escreva seu nome e aperte Enter: ");
+    string nome = Console.ReadLine();
+    while (nome == "")
+    {
+        Console.Write("Escreva seu nome novamente e aperte Enter: ");
+        nome = Console.ReadLine();
+    }
+
+    Console.Write("Escreva seu endereço e aperte Enter: ");
+    string endereco = Console.ReadLine();
+    while (nome == "")
+    {
+        Console.Write("Escreva seu endereço novamente e aperte Enter: ");
+        endereco = Console.ReadLine();
+    }
+
+    Console.Write("Escreva sua renda mensal e aperte Enter: ");
+    string tryRendaMensal = Console.ReadLine();
+    while (!double.TryParse(tryRendaMensal, out rendaMensal))
+    {
+        Console.Write("Escreva sua renda mensal novamente e aperte Enter: ");
+        tryRendaMensal = Console.ReadLine();
+    }
 
 
-
+    Console.WriteLine("Agencia:");
+    Console.WriteLine("1) 001 - Florianópolis");
+    Console.WriteLine("2) 002 - São José");
+    Console.WriteLine("3) 003 - Biguaçu");
+    Console.WriteLine("4) Voltar ao menu Inicial");
+    Console.Write("\r\nSelect an option: ");
+    switch (Console.ReadLine())
+    {
+        case "1":
+            contaMudanca.AlterarDadosCadastrais(nome, endereco, rendaMensal, "001 - Florianópolis");
+            Console.WriteLine("Alteração realizada!");
+            Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
+            Console.ReadLine();
+            MainMenu();
+            break;
+        case "2":
+            contaMudanca.AlterarDadosCadastrais(nome, endereco, rendaMensal, "002 - São José");
+            Console.WriteLine("Alteração realizada!");
+            Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
+            Console.ReadLine();
+            MainMenu();
+            break;
+        case "3":
+            contaMudanca.AlterarDadosCadastrais(nome, endereco, rendaMensal, "003 - Biguaçu");
+            Console.WriteLine("Alteração realizada!");
+            Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
+            Console.ReadLine();
+            MainMenu();
+            break;
+        case "4":
+            break;
+        default:
+            break;
+    }
+}
+bool AcessarRelatoriosMenu()
+{
+    Console.Clear();
+    Console.WriteLine("Tipo de Relatorio:");
+    Console.WriteLine("1) Todas as contas do DevinBank");
+    Console.WriteLine("2) Contas Negativadas");
+    Console.WriteLine("3) Capital total DevinBank ");
+    Console.WriteLine("4) Transaçoes por cliente");
+    Console.Write("\r\nSelect an option: ");
+    //switch (Console.ReadLine())
+    // {
+    return false;
+}

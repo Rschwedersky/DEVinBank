@@ -25,7 +25,10 @@
             Contador++;
            
         }
-
+        public virtual void Extrato(Extrato extrato)
+        {
+            ListaExtrato.Add(extrato);
+        }
         public virtual void Saque(double value) {
             if (Saldo < value)
             {
@@ -46,8 +49,13 @@
             return Saldo;
         }
 
-
-        public void AlterarDadosCadastrais() { }
+        //Implementar!!!!!
+        public void AlterarDadosCadastrais(string nome, string endereço, double rendaMensal, string agencia) {
+            Nome = nome;
+            Endereço = endereço;
+            RendaMensal = rendaMensal;
+            Agencia = agencia;
+        }
 
         public virtual void Transferencia(double valor, Conta entrada) 
         { 

@@ -22,6 +22,7 @@ namespace DEVinBank
             Valor = valor;
             Tipo = tipo;
             Date = DateTime.Now;
+
         }
         public Extrato(double valor, Conta contaOrigem, string tipo)
         {
