@@ -331,9 +331,9 @@ void Sacar(int id)
                     item.Extrato(extrato);
                     listaExtrato.Add(extrato);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                Console.WriteLine("Saldo insuficiente"); 
+                Console.WriteLine($"{e.Message}");
                 Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
                 Console.ReadLine();
                 MainMenu();
@@ -439,9 +439,9 @@ void VerSimulacao(int id, string tipo)
                     Console.WriteLine("2) Voltar ao menu Inicial");
                     Console.Write("\r\nSelect an option: ");
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    Console.WriteLine("Algo deu errado");
+                    Console.WriteLine($"{e.Message}");
                     Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
                     Console.ReadLine();
                     MainMenu();
@@ -470,9 +470,9 @@ void VerSimulacao(int id, string tipo)
 
 
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    Console.WriteLine("Algo deu errado");
+                    Console.WriteLine($"{e.Message}");
                     Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
                     Console.ReadLine();
                     MainMenu();
@@ -491,8 +491,9 @@ void VerSimulacao(int id, string tipo)
                     Console.WriteLine("2) Voltar ao menu Inicial");
                     Console.Write("\r\nSelecione uma opção: ");
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
+                    Console.WriteLine($"{e.Message}");
                     Console.WriteLine("Algo deu errado");
                     Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
                     Console.ReadLine();
@@ -524,9 +525,9 @@ void VerSimulacao(int id, string tipo)
 
 
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    Console.WriteLine("Algo deu errado");
+                    Console.WriteLine($"{e.Message}");
                     Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
                     Console.ReadLine();
                     MainMenu();
@@ -545,9 +546,9 @@ void VerSimulacao(int id, string tipo)
                     Console.WriteLine("2) Voltar ao menu Inicial");
                     Console.Write("\r\nSelecione uma opção: ");
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    Console.WriteLine("Algo deu errado");
+                    Console.WriteLine($"{e.Message}");
                     Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
                     Console.ReadLine();
                     MainMenu();
@@ -578,9 +579,9 @@ void VerSimulacao(int id, string tipo)
 
 
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    Console.WriteLine("Algo deu errado");
+                    Console.WriteLine($"{e.Message}");
                     Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
                     Console.ReadLine();
                     MainMenu();
@@ -656,9 +657,9 @@ void Transferir(int id)
         listaExtrato.Add(extrato);
         contaSaida.Extrato(extrato);
     }
-    catch (Exception)
+    catch (Exception e)
     {
-        Console.WriteLine("Saldo insuficiente");
+        Console.WriteLine($"{e.Message}");
         Console.WriteLine("Aperte qualquer tecla para voltar ao menu inicial");
         Console.ReadLine();
         MainMenu();
@@ -760,8 +761,10 @@ bool AcessarRelatoriosMenu()
             Console.WriteLine("Abaixo a lista com todas as contas do DevinBank: ");
             foreach (var item in listaContas)
             {
+                
                 Console.WriteLine("#####################");
                 Console.WriteLine($"Conta:  {item.NumeroConta}");
+                Console.WriteLine($"Tipo de conta:  {item.GetType().Name}");
                 Console.WriteLine($"Atrelada ao CPF:  {item.CPF}");
                 Console.WriteLine($"Com saldo:  {item.Saldo}");
                 Console.WriteLine("#####################");

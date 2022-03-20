@@ -32,7 +32,7 @@
         public virtual void Saque(double value) {
             if (Saldo < value)
             {
-                throw new Exception("Balance unavailable.");
+                throw new Exception("Saldo insuficiente para a operação.");
             }
 
             Saldo -= value;
@@ -49,7 +49,7 @@
             return Saldo;
         }
 
-        //Implementar!!!!!
+        
         public void AlterarDadosCadastrais(string nome, string endereço, double rendaMensal, string agencia) {
             Nome = nome;
             Endereço = endereço;
@@ -58,7 +58,16 @@
         }
 
         public virtual void Transferencia(double valor, Conta entrada) 
-        { 
+        {
+            string dia = DateTime.Today.DayOfWeek.ToString();
+            if ((dia == "Saturday") || (dia == "Sunday"))
+            {
+                throw new Exception("Transferência não permitida nos Sábados e Domingos.");
+            }
+            if (CPF==entrada.CPF)
+            {
+                throw new Exception("Transferência não permitida para contas com o mesmo CPF");
+            }
             this.Saque(valor);
             entrada.Deposito(valor);
         }
